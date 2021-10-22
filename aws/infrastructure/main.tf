@@ -14,9 +14,9 @@ terraform {
 }
 
 provider "aws" {
-    region  = "${var.region}"
+    region  = var.region
 }
 
 resource "aws_sqs_queue" "terraform_queue" {
-  name = "${var.queue_name}"
+  name = var.queue_name
 }
