@@ -1,2 +1,2 @@
 region = "#{Project.AWS.Region}"
-queue = "#{Project.AWS.Queue.Name}"
+queue_name = "#{Project.AWS.Queue.Name}"
