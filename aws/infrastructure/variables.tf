@@ -6,6 +6,6 @@ variable "queue_name" {
     type = string
 }
 
-variable "lambda_role_name" {
+variable "api_gateway_name" {
     type = string
 }

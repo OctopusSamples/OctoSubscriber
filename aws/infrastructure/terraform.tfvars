@@ -1,3 +1,3 @@
 region = "#{Project.AWS.Region}"
 queue_name = "#{Project.AWS.Queue.Name}"
-lambda_role_name = "#{Project.AWS.Lambda.Role.Name}"
+api_gateway_name = "#{Project.AWS.API.Gateway.Name}"

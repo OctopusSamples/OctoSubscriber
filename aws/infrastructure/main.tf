@@ -22,37 +22,3 @@ resource "aws_sqs_queue" "subscriber_queue" {
   kms_master_key_id                 = "alias/aws/sqs"
   kms_data_key_reuse_period_seconds = 300
 }
-
-resource "aws_iam_role" "subscriber_lambda_role" {
-  name  = var.lambda_role_name
-  path  = "/service-role/"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  inline_policy {
-    name = "lambda_role_inline_policy"
-
-    policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Action   = ["sqs:*"]
-          Effect   = "Allow"
-          Resource = "*"
-        },
-      ]
-    })
-  }
-}
