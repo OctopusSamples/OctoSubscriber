@@ -22,3 +22,7 @@ resource "aws_sqs_queue" "subscriber_queue" {
   kms_master_key_id                 = "alias/aws/sqs"
   kms_data_key_reuse_period_seconds = 300
 }
+
+resource "aws_api_gateway_rest_api" "subscriber_gateway" {
+  name = var.api_gateway_name
+}
