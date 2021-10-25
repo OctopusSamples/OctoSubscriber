@@ -13,13 +13,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-
-      - name: Set version
-        id: set-version
-        run: echo "::set-env PACKAGE_VERSION=2021.1.1.$GITHUB_RUN_NUMBER"
       
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.1
@@ -31,5 +26,5 @@ jobs:
           OCTOPUS_URL: ${{ secrets.OCTOPUS_SERVER_URL }}
           OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}  
         run: |
-          octo pack --id=OctoSubscriber --format=Zip --version=${env:PACKAGE_VERSION} --basePath="aws/accept-message/"
-          octo push --package=OctoSubscriber.${env:PACKAGE_VERSION}.zip --server=${env:OCTOPUS_URL} --apiKey=${env:OCTOPUS_API_KEY}
+          octo pack --id=OctoSubscriber --format=Zip --version=2021.1.1.$GITHUB_RUN_NUMBER --basePath="aws/accept-message/"
+          octo push --package=OctoSubscriber.2021.1.1.$GITHUB_RUN_NUMBER.zip --server=${env:OCTOPUS_URL} --apiKey=${env:OCTOPUS_API_KEY}
