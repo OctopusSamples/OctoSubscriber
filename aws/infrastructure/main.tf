@@ -23,6 +23,7 @@ resource "aws_sqs_queue" "subscriber_queue" {
   kms_data_key_reuse_period_seconds = 300
 }
 
-resource "aws_api_gateway_rest_api" "subscriber_gateway" {
-  name = var.api_gateway_name
+resource "aws_apigatewayv2_api" "subscriber_gateway" {
+  name                              = var.api_gateway_name
+  protocol_type                     = "HTTP"
 }
