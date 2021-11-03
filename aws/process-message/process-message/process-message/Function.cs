@@ -72,7 +72,7 @@ namespace process_message
                     repositoryForSpace.Interruptions.TakeResponsibility(guidedFailureInterruption);
 
                     // Set the result
-                    guidedFailureInterruption.Form.Values["Result"] = "Retry";
+                    guidedFailureInterruption.Form.Values["Result"] = "Fail";
 
                     // Update Octopus
                     repositoryForSpace.Interruptions.Submit(guidedFailureInterruption);
