@@ -45,9 +45,15 @@ namespace process_message
 
         private async Task ProcessMessageAsync(SQSEvent.SQSMessage message, ILambdaContext context)
         {
+            // Log
+            LambdaLogger.Log("Begin message processing...");
+            
             // Get environment variables
             string octopusServerUrl = Environment.GetEnvironmentVariable("OCTOPUS_SERVER_URL");
             string octopusApiKey = Environment.GetEnvironmentVariable("OCTOPUS_API_KEY");
+
+            // Log
+            LambdaLogger.Log(string.Format("Retrieved environment variables, Octopus Server Url: {0}...", octopusServerUrl));
 
             // Deserialize message JSON
             dynamic subscriptionEvent = JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(message.Body, new Newtonsoft.Json.Converters.ExpandoObjectConverter());
@@ -58,23 +64,29 @@ namespace process_message
             var client = new OctopusClient(endpoint);
 
             // Create repository for space
+            LambdaLogger.Log(string.Format("Creating repository object for space: {0}", subscriptionEvent.SpaceId));
             var space = repository.Spaces.Get(subscriptionEvent.SpaceId);
             Octopus.Client.IOctopusSpaceRepository repositoryForSpace = client.ForSpace(space);
 
             // Retrieve interruption; first related document is the DeploymentId
-            var guidedFailureInterruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: subscriptionEvent.Event.RelatedDocumentIds[0]).Items;
+            string deploymentId = subscriptionEvent.Event.RelatedDocumentIds[0];
+
+            LambdaLogger.Log(string.Format("Processing event for deployment: {0}...", deploymentId));
+            var guidedFailureInterruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: deploymentId).Items;
 
             if (guidedFailureInterruptionCollection.Count > 0)
             {
                 foreach (var guidedFailureInterruption in guidedFailureInterruptionCollection)
                 {
                     // Take responsibility
+                    LambdaLogger.Log(string.Format("Taking responsibility for interruption: {0}...", guidedFailureInterruption.Id));
                     repositoryForSpace.Interruptions.TakeResponsibility(guidedFailureInterruption);
 
                     // Set the result
                     guidedFailureInterruption.Form.Values["Result"] = "Fail";
 
                     // Update Octopus
+                    LambdaLogger.Log(string.Format("Submitting guidance for: {0}...", guidedFailureInterruption.Id));
                     repositoryForSpace.Interruptions.Submit(guidedFailureInterruption);
                 }
             }
