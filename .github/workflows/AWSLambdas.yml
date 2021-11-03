@@ -24,13 +24,19 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
+      - name: Create artifacts folder
+        run: |
+          mkdir "$GITHUB_WORKSPACE/artifacts"
+          mkdir "$GITHUB_WORKSPACE/artifacts/process-message"
+
+
       - name: Restore dependencies for process-message
         working-directory: aws/process-message/process-message
         run: dotnet restore
 
       - name: Build process-message
         working-directory: aws/process-message/process-message
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/process-message"
               
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.1
