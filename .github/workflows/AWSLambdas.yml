@@ -26,7 +26,7 @@ jobs:
 
       - name: Restore dependencies for process-message
         working-directory: aws/process-message/process-message
-        run: dotnet resore
+        run: dotnet restore
 
       - name: Build process-message
         working-directory: aws/process-message/process-message
