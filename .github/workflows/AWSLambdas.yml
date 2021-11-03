@@ -17,11 +17,11 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Restore dependencies for process-message
-        working-directory: /process-message/process-message
+        working-directory: aws/process-message/process-message
         run: dotnet resore
 
       - name: Build process-message
-        working-directory: /process-message/process-message
+        working-directory: aws/process-message/process-message
         run: dotnet build --configuration Release --no-restore
               
       - name: Install Octopus CLI
