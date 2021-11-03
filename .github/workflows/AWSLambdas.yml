@@ -15,7 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
+      - name: Restore dependencies for process-message
+        working-directory: /process-message/process-message
+        run: dotnet resore
+
+      - name: Build process-message
+        working-directory: /process-message/process-message
+        run: dotnet build --configuration Release --no-restore
+              
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.1
         with:
