@@ -61,8 +61,11 @@ namespace process_message
             LambdaLogger.Log("Successfully parsed message JSON...");
 
             // Create Octopus client object
+            LambdaLogger.Log("Creating server endpoint object ...");
             var endpoint = new OctopusServerEndpoint(octopusServerUrl, octopusApiKey);
+            LambdaLogger.Log("Creating repository object...");
             var repository = new OctopusRepository(endpoint);
+            LambdaLogger.Log("Creating client object ...");
             var client = new OctopusClient(endpoint);
 
             // Create repository for space
