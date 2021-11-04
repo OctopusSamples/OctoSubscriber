@@ -90,7 +90,7 @@ namespace process_message
                     repositoryForSpace.Interruptions.TakeResponsibility(guidedFailureInterruption);
 
                     // Set the result
-                    guidedFailureInterruption.Form.Values["Result"] = "Fail";
+                    guidedFailureInterruption.Form.Values["Guidance"] = "Fail";
 
                     // Update Octopus
                     LambdaLogger.Log(string.Format("Submitting guidance for: {0}...", guidedFailureInterruption.Id));
