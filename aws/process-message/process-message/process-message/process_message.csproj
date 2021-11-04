@@ -11,10 +11,6 @@
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Octopus.Client">
-      <HintPath>..\Octopus.Client.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Octopus.Client" Version="11.3.3425" />
   </ItemGroup>
 </Project>
