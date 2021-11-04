@@ -69,10 +69,10 @@ namespace process_message
             Octopus.Client.IOctopusSpaceRepository repositoryForSpace = client.ForSpace(space);
 
             // Retrieve interruption; first related document is the DeploymentId
-            string deploymentId = subscriptionEvent.Event.RelatedDocumentIds[0];
+            string documentId = subscriptionEvent.Event.RelatedDocumentIds[0];
 
-            LambdaLogger.Log(string.Format("Processing event for deployment: {0}...", deploymentId));
-            var guidedFailureInterruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: deploymentId).Items;
+            LambdaLogger.Log(string.Format("Processing event for document: {0}...", documentId));
+            var guidedFailureInterruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: documentId).Items;
 
             if (guidedFailureInterruptionCollection.Count > 0)
             {
