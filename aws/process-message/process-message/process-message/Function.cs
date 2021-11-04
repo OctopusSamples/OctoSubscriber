@@ -56,7 +56,9 @@ namespace process_message
             LambdaLogger.Log(string.Format("Retrieved environment variables, Octopus Server Url: {0}...", octopusServerUrl));
 
             // Deserialize message JSON
+            LambdaLogger.Log(string.Format("Parsing message..."));
             dynamic subscriptionEvent = JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(message.Body, new Newtonsoft.Json.Converters.ExpandoObjectConverter());
+            LambdaLogger.Log("Successfully parsed message JSON...");
 
             // Create Octopus client object
             var endpoint = new OctopusServerEndpoint(octopusServerUrl, octopusApiKey);
