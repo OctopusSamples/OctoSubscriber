@@ -63,47 +63,40 @@ namespace process_message
             // Create Octopus client object
             LambdaLogger.Log("Creating server endpoint object ...");
             var endpoint = new OctopusServerEndpoint(octopusServerUrl, octopusApiKey);
-            LambdaLogger.Log("Creating client object...");
-            //var repository = new OctopusRepository(endpoint);
-            using (var client = await OctopusAsyncClient.Create(endpoint))
+            LambdaLogger.Log("Creating repository object...");
+            var repository = new OctopusRepository(endpoint);
+            LambdaLogger.Log("Creating client object ...");
+            var client = new OctopusClient(endpoint);
+
+            // Create repository for space
+            LambdaLogger.Log(string.Format("Creating repository object for space: {0}", subscriptionEvent.SpaceId));
+            var space = repository.Spaces.Get(subscriptionEvent.SpaceId);
+            Octopus.Client.IOctopusSpaceRepository repositoryForSpace = client.ForSpace(space);
+
+            // Retrieve interruption; first related document is the DeploymentId
+            string documentId = subscriptionEvent.Event.RelatedDocumentIds[0];
+
+            LambdaLogger.Log(string.Format("Processing event for document: {0}...", documentId));
+            var guidedFailureInterruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: documentId).Items;
+
+            if (guidedFailureInterruptionCollection.Count > 0)
             {
-
-
-                LambdaLogger.Log("Creating repository object ...");
-                //var client = new OctopusClient(endpoint);
-                var repository = new OctopusRepository(endpoint);
-
-                // Create repository for space
-                LambdaLogger.Log(string.Format("Creating repository object for space: {0}", subscriptionEvent.SpaceId));
-                var space = repository.Spaces.Get(subscriptionEvent.SpaceId);
-                Octopus.Client.IOctopusSpaceRepository repositoryForSpace = client.ForSpace(space);
-
-                // Retrieve interruption; first related document is the DeploymentId
-                string documentId = subscriptionEvent.Event.RelatedDocumentIds[0];
-
-                LambdaLogger.Log(string.Format("Processing event for document: {0}...", documentId));
-                var guidedFailureInterruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: documentId).Items;
-
-                if (guidedFailureInterruptionCollection.Count > 0)
+                foreach (var guidedFailureInterruption in guidedFailureInterruptionCollection)
                 {
-                    foreach (var guidedFailureInterruption in guidedFailureInterruptionCollection)
-                    {
-                        // Take responsibility
-                        LambdaLogger.Log(string.Format("Taking responsibility for interruption: {0}...", guidedFailureInterruption.Id));
-                        repositoryForSpace.Interruptions.TakeResponsibility(guidedFailureInterruption);
+                    // Take responsibility
+                    LambdaLogger.Log(string.Format("Taking responsibility for interruption: {0}...", guidedFailureInterruption.Id));
+                    repositoryForSpace.Interruptions.TakeResponsibility(guidedFailureInterruption);
 
-                        // Set the result
-                        guidedFailureInterruption.Form.Values["Result"] = "Fail";
+                    // Set the result
+                    guidedFailureInterruption.Form.Values["Result"] = "Fail";
 
-                        // Update Octopus
-                        LambdaLogger.Log(string.Format("Submitting guidance for: {0}...", guidedFailureInterruption.Id));
-                        repositoryForSpace.Interruptions.Submit(guidedFailureInterruption);
-                    }
+                    // Update Octopus
+                    LambdaLogger.Log(string.Format("Submitting guidance for: {0}...", guidedFailureInterruption.Id));
+                    repositoryForSpace.Interruptions.Submit(guidedFailureInterruption);
                 }
-
-
-                //await Task.CompletedTask;
             }
+
+
             await Task.CompletedTask;
         }
     }
