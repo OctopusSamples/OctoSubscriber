@@ -70,8 +70,9 @@ namespace process_message
             var client = new OctopusClient(endpoint);
 
             // Create repository for space
-            LambdaLogger.Log(string.Format("Creating repository object for space: {0}", subscriptionEvent.SpaceId));
-            var space = repository.Spaces.Get(subscriptionEvent.Payload.Event.SpaceId);
+            string spaceId = subscriptionEvent.Payload.Event.SpaceId;
+            LambdaLogger.Log(string.Format("Creating repository object for space: {0}", spaceId));
+            var space = repository.Spaces.Get(spaceId);
             Octopus.Client.IOctopusSpaceRepository repositoryForSpace = client.ForSpace(space);
 
             // Retrieve interruption; first related document is the DeploymentId
