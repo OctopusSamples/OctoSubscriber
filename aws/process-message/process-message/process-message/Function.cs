@@ -70,11 +70,11 @@ namespace process_message
 
             // Create repository for space
             LambdaLogger.Log(string.Format("Creating repository object for space: {0}", subscriptionEvent.SpaceId));
-            var space = repository.Spaces.Get(subscriptionEvent.SpaceId);
+            var space = repository.Spaces.Get(subscriptionEvent.Payload.Event.SpaceId);
             Octopus.Client.IOctopusSpaceRepository repositoryForSpace = client.ForSpace(space);
 
             // Retrieve interruption; first related document is the DeploymentId
-            string documentId = subscriptionEvent.Event.RelatedDocumentIds[0];
+            string documentId = subscriptionEvent.Payload.Event.RelatedDocumentIds[0];
 
             LambdaLogger.Log(string.Format("Processing event for document: {0}...", documentId));
             var guidedFailureInterruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: documentId).Items;
