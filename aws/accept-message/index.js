@@ -3,6 +3,11 @@ var AWS = require('aws-sdk');
 exports.handler = function(event, context) {
   let QUEUE_URL = process.env.sqsqueue;
   let sqs = new AWS.SQS({region : process.env.sqsregion});
+  let maximumretry = "1";
+
+  if (event.queryStringParameters.maximumretry) {
+    maximumretry = event.queryStringParameters.maximumretry
+  }
   
   var params = {
     MessageBody: event.body,
@@ -18,7 +23,7 @@ exports.handler = function(event, context) {
       },
       "MaximumRetry": {
         DataType: "String",
-        StringValue: event.queryStringParameters.maximumretry
+        StringValue: maximumretry
       }
     }
   };
