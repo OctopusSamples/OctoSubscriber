@@ -101,7 +101,7 @@ namespace process_message
             }
 
             LambdaLogger.Log(string.Format("Processing event for document: {0}...", documentId));
-            var interruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: documentId).Items;
+            var interruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: documentId, pendingOnly: true).Items;
 
             if (interruptionCollection.Count > 0)
             {
