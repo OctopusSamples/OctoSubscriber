@@ -96,7 +96,7 @@ namespace process_message
             var eventList = repositoryForSpace.Events.List(regardingDocumentId: documentId);
             if (eventList.Items.Count(x => x.Category == "GuidedFailureInterruptionRaised") > maximumRetry && message.MessageAttributes["Action"].StringValue == "Retry")
             {
-                LambdaLogger.Log(string.Format("{0} has raised Guided Failure more than once, updating Action to Fail to break the infinite loop.", documentId));
+                LambdaLogger.Log(string.Format("{0} has raised Guided Failure more than {1} time(s), updating Action to Fail to break the infinite loop.", documentId, maximumRetry));
                 message.MessageAttributes["Action"].StringValue = "Fail";
             }
 
@@ -107,9 +107,13 @@ namespace process_message
             {
                 foreach (var interruption in interruptionCollection)
                 {
-                    // Take responsibility
-                    LambdaLogger.Log(string.Format("Taking responsibility for interruption: {0}...", interruption.Id));
-                    repositoryForSpace.Interruptions.TakeResponsibility(interruption);
+                    // Check to see if responsibility needs to be taken
+                    if (!interruption.HasResponsibility)
+                    {
+                        // Take responsibility
+                        LambdaLogger.Log(string.Format("Taking responsibility for interruption: {0}...", interruption.Id));
+                        repositoryForSpace.Interruptions.TakeResponsibility(interruption);
+                    }
 
                     // The message attributes contain the type [Manual Intervention | GuidedFailure] and the desired Action to take for it
                     interruption.Form.Values[message.MessageAttributes["Type"].StringValue] = message.MessageAttributes["Action"].StringValue;
