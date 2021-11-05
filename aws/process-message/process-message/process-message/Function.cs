@@ -85,6 +85,21 @@ namespace process_message
             // Retrieve interruption; first related document is the DeploymentId
             string documentId = subscriptionEvent.Payload.Event.RelatedDocumentIds[0];
 
+            // Check to see if guided failure has already been invoked once, defaults to once if nothing provided
+            int maximumRetry = 1;
+            if (!string.IsNullOrWhiteSpace(message.MessageAttributes["MaximumRetry"].StringValue))
+            {
+                // Set to value
+                maximumRetry = int.Parse(message.MessageAttributes["MaximumRetry"].StringValue);
+            }
+
+            var eventList = repositoryForSpace.Events.List(regardingDocumentId: documentId);
+            if (eventList.Items.Count(x => x.Category == "GuidedFailureInterruptionRaised") > maximumRetry && message.MessageAttributes["Action"].StringValue == "Retry")
+            {
+                LambdaLogger.Log(string.Format("{0} has raised Guided Failure more than once, updating Action to Fail to break the infinite loop.", documentId));
+                message.MessageAttributes["Action"].StringValue = "Fail";
+            }
+
             LambdaLogger.Log(string.Format("Processing event for document: {0}...", documentId));
             var interruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: documentId).Items;
 

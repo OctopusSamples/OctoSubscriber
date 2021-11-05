@@ -15,6 +15,10 @@ exports.handler = function(event, context) {
       "Action": {
         DataType: "String",
         StringValue: event.queryStringParameters.action
+      },
+      "MaximumRetry": {
+        DataType: "String",
+        StringValue: event.queryStringParameters.maximumretry
       }
     }
   };
