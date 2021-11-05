@@ -51,6 +51,13 @@ namespace process_message
             // Get environment variables
             string octopusServerUrl = Environment.GetEnvironmentVariable("OCTOPUS_SERVER_URL");
             string octopusApiKey = Environment.GetEnvironmentVariable("OCTOPUS_API_KEY");
+
+            // Check to see if there are message attributes
+            if (message.MessageAttributes.Count == 0)
+            {
+                // Fail
+                throw new Exception("MessageAttributes collection is empty, was the queue called with querystring paramters?");
+            }
             
             // Log
             LambdaLogger.Log(string.Format("Retrieved environment variables, Octopus Server Url: {0}...", octopusServerUrl));
@@ -71,7 +78,7 @@ namespace process_message
 
             // Create repository for space
             string spaceId = subscriptionEvent.Payload.Event.SpaceId;
-            LambdaLogger.Log(string.Format("Creating repository object for space: {0}", spaceId));
+            LambdaLogger.Log(string.Format("Creating repository object for space: {0}...", spaceId));
             var space = repository.Spaces.Get(spaceId);
             Octopus.Client.IOctopusSpaceRepository repositoryForSpace = client.ForSpace(space);
 
@@ -89,7 +96,7 @@ namespace process_message
                     LambdaLogger.Log(string.Format("Taking responsibility for interruption: {0}...", interruption.Id));
                     repositoryForSpace.Interruptions.TakeResponsibility(interruption);
 
-                    // Set the result
+                    // The message attributes contain the type [Manual Intervention | GuidedFailure] and the desired Action to take for it
                     interruption.Form.Values[message.MessageAttributes["Type"].StringValue] = message.MessageAttributes["Action"].StringValue;
 
                     // Update Octopus
