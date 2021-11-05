@@ -51,7 +51,7 @@ namespace process_message
             // Get environment variables
             string octopusServerUrl = Environment.GetEnvironmentVariable("OCTOPUS_SERVER_URL");
             string octopusApiKey = Environment.GetEnvironmentVariable("OCTOPUS_API_KEY");
-
+            
             // Log
             LambdaLogger.Log(string.Format("Retrieved environment variables, Octopus Server Url: {0}...", octopusServerUrl));
 
@@ -79,22 +79,22 @@ namespace process_message
             string documentId = subscriptionEvent.Payload.Event.RelatedDocumentIds[0];
 
             LambdaLogger.Log(string.Format("Processing event for document: {0}...", documentId));
-            var guidedFailureInterruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: documentId).Items;
+            var interruptionCollection = repositoryForSpace.Interruptions.List(regardingDocumentId: documentId).Items;
 
-            if (guidedFailureInterruptionCollection.Count > 0)
+            if (interruptionCollection.Count > 0)
             {
-                foreach (var guidedFailureInterruption in guidedFailureInterruptionCollection)
+                foreach (var interruption in interruptionCollection)
                 {
                     // Take responsibility
-                    LambdaLogger.Log(string.Format("Taking responsibility for interruption: {0}...", guidedFailureInterruption.Id));
-                    repositoryForSpace.Interruptions.TakeResponsibility(guidedFailureInterruption);
+                    LambdaLogger.Log(string.Format("Taking responsibility for interruption: {0}...", interruption.Id));
+                    repositoryForSpace.Interruptions.TakeResponsibility(interruption);
 
                     // Set the result
-                    guidedFailureInterruption.Form.Values["Guidance"] = "Fail";
+                    interruption.Form.Values[message.Attributes["Type"]] = message.Attributes["Action"];
 
                     // Update Octopus
-                    LambdaLogger.Log(string.Format("Submitting guidance for: {0}...", guidedFailureInterruption.Id));
-                    repositoryForSpace.Interruptions.Submit(guidedFailureInterruption);
+                    LambdaLogger.Log(string.Format("Submitting guidance for: {0}...", interruption.Id));
+                    repositoryForSpace.Interruptions.Submit(interruption);
                 }
             }
 

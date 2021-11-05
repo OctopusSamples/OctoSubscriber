@@ -6,7 +6,17 @@ exports.handler = function(event, context) {
   
   var params = {
     MessageBody: event.body,
-    QueueUrl: QUEUE_URL
+    QueueUrl: QUEUE_URL,
+    MessageAttributes: {
+      "Type": {
+        DataType: "String",
+        StringValue: event.queryStringParameters.type
+      },
+      "Action": {
+        DataType: "String",
+        StringValue: event.queryStringParameters.action
+      }
+    }
   };
   
   sqs.sendMessage(params, function(err,data){
