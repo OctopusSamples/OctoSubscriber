@@ -108,19 +108,20 @@ namespace process_message
                 foreach (var interruption in interruptionCollection)
                 {
                     // Check to see if responsibility needs to be taken
-                    if (!interruption.HasResponsibility)
+                    if (interruption.IsPending)
                     {
                         // Take responsibility
                         LambdaLogger.Log(string.Format("Taking responsibility for interruption: {0}...", interruption.Id));
                         repositoryForSpace.Interruptions.TakeResponsibility(interruption);
+
+
+                        // The message attributes contain the type [Manual Intervention | GuidedFailure] and the desired Action to take for it
+                        interruption.Form.Values[message.MessageAttributes["Type"].StringValue] = message.MessageAttributes["Action"].StringValue;
+
+                        // Update Octopus
+                        LambdaLogger.Log(string.Format("Submitting {0}:{1} for: {2}...", message.MessageAttributes["Type"].StringValue, message.MessageAttributes["Action"].StringValue, interruption.Id));
+                        repositoryForSpace.Interruptions.Submit(interruption);
                     }
-
-                    // The message attributes contain the type [Manual Intervention | GuidedFailure] and the desired Action to take for it
-                    interruption.Form.Values[message.MessageAttributes["Type"].StringValue] = message.MessageAttributes["Action"].StringValue;
-
-                    // Update Octopus
-                    LambdaLogger.Log(string.Format("Submitting {0}:{1} for: {2}...", message.MessageAttributes["Type"].StringValue, message.MessageAttributes["Action"].StringValue, interruption.Id));
-                    repositoryForSpace.Interruptions.Submit(interruption);
                 }
             }
 
