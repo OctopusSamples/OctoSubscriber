@@ -93,7 +93,7 @@ namespace process_message
                     interruption.Form.Values[message.MessageAttributes["Type"].StringValue] = message.MessageAttributes["Action"].StringValue;
 
                     // Update Octopus
-                    LambdaLogger.Log(string.Format("Submitting guidance for: {0}...", interruption.Id));
+                    LambdaLogger.Log(string.Format("Submitting {0}:{1} for: {2}...", message.MessageAttributes["Type"].StringValue, message.MessageAttributes["Action"].StringValue, interruption.Id));
                     repositoryForSpace.Interruptions.Submit(interruption);
                 }
             }
