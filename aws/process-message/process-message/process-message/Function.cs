@@ -93,7 +93,8 @@ namespace process_message
                 maximumRetry = int.Parse(message.MessageAttributes["MaximumRetry"].StringValue);
             }
 
-            var eventList = repositoryForSpace.Events.List(regardingDocumentId: documentId);
+            var eventList = repositoryForSpace.Events.List(regarding: documentId);
+         
             if (eventList.Items.Count(x => x.Category == "GuidedFailureInterruptionRaised") > maximumRetry && message.MessageAttributes["Action"].StringValue == "Retry")
             {
                 LambdaLogger.Log(string.Format("{0} has raised Guided Failure more than {1} time(s), updating Action to Fail to break the infinite loop.", documentId, maximumRetry));
