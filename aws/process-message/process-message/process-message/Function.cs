@@ -64,7 +64,6 @@ namespace process_message
 
             // Deserialize message JSON
             LambdaLogger.Log(string.Format("Parsing message..."));
-            //dynamic subscriptionEvent = JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(message.Body, new Newtonsoft.Json.Converters.ExpandoObjectConverter());
             dynamic subscriptionEvent = JsonConvert.DeserializeObject(message.Body);
             LambdaLogger.Log("Successfully parsed message JSON...");
 
