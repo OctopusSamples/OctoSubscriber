@@ -40,7 +40,7 @@ jobs:
 
       - name: Install node dependencies
         working-directory: azure/accept_message
-        run: npm install
+        run: npm ci
               
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.1
