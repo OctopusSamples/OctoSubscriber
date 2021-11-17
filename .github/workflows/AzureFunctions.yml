@@ -28,6 +28,7 @@ jobs:
         run: |
           mkdir "$GITHUB_WORKSPACE/artifacts"
           mkdir "$GITHUB_WORKSPACE/artifacts/process-message"
+          mkdir "$GITHUB_WORKSPACE/azure/accept_message/node_modules"
 
 
       - name: Restore dependencies for process-message
