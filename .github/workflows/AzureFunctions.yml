@@ -37,6 +37,10 @@ jobs:
       - name: Build process-message
         working-directory: azure/process_message/process_message
         run: dotnet build --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/process-message"
+
+      - name: Install node dependencies
+        working-directory: azure/accept_message
+        run: npm install
               
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.1
