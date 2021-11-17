@@ -1,11 +1,36 @@
 {
   "name": "accept_message",
   "version": "1.0.0",
-  "description": "",
   "scripts": {
     "start": "func start",
     "test": "echo \"No tests yet...\""
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "asynckit": "^0.4.0",
+    "combined-stream": "^1.0.8",
+    "delayed-stream": "^1.0.0",
+    "form-data": "^4.0.0",
+    "mime-db": "^1.51.0",
+    "mime-types": "^2.1.34",
+    "node-fetch": "^2.6.6",
+    "psl": "^1.8.0",
+    "process": "^0.11.10",
+    "punycode": "^2.1.1",
+    "tough-cookie": "^4.0.0",
+    "sax": "^1.2.4",
+    "tr46": "^0.0.3",
+    "tslib": "^2.3.1",
+    "tunnel": "^0.0.6",
+    "universalify": "^0.1.2",
+    "uuid": "^8.3.2",
+    "webidl-conversions": "^3.0.1",
+    "whatwg-url": "^5.0.0",
+    "xmlbuilder": "^11.0.1",
+    "xml2js": "^0.4.23"
+  },
+  "description": ""
 }
