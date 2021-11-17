@@ -26,6 +26,9 @@ namespace process_message
             string librarySetName = subscriptionEvent.Payload.Event.ChangeDetails.DocumentContext.Name;
             System.Text.StringBuilder messageText = new System.Text.StringBuilder();
 
+            // Get message from event
+            messageText.AppendLine(subscriptionEvent.Payload.Event.Message);
+
             // Configure slack message based on available elements
             if (!string.IsNullOrWhiteSpace(librarySetName))
             {
