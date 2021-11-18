@@ -49,6 +49,8 @@ namespace process_message
                 }
             }
 
+            log.LogInformation($"Posting to Slack: {messageText.ToString()}");
+
             // Post message to channel
             slackMessage.Channel = slackChannel;
             slackMessage.Text = messageText.ToString();
