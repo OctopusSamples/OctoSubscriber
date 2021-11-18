@@ -27,13 +27,7 @@ namespace process_message
             System.Text.StringBuilder messageText = new System.Text.StringBuilder();
 
             // Get message from event
-            messageText.AppendLine(subscriptionEvent.Payload.Event.Message);
-
-            // Configure slack message based on available elements
-            if (!string.IsNullOrWhiteSpace(librarySetName))
-            {
-                messageText.AppendLine(string.Format("{0} has updated {1}", subscriptionEvent.Payload.Event.Username, subscriptionEvent.Payload.Event.ChangeDetails.DocumentContext.Name));
-            }
+            messageText.AppendLine(subscriptionEvent.Payload.Event.Message.ToString());
 
             if (subscriptionEvent.Payload.Event.ChangeDetails.Differences.Count > 0)
             {
