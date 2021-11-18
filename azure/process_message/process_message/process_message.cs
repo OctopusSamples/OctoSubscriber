@@ -55,8 +55,6 @@ namespace process_message
             slackMessage.Channel = slackChannel;
             slackMessage.Text = messageText.ToString();
             slackClient.Post(slackMessage);
-
-            //log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
         }
     }
 }
