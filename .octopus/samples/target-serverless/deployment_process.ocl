@@ -1,7 +1,6 @@
 step "AWS - Deploy Accept Message Lambda Function" {
 
     action {
-        excluded_environments = ["Production"]
         notes = <<-EOT
                 Runs on **Deploy** and **Redeploy**
                 
