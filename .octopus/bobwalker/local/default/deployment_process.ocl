@@ -19,11 +19,11 @@ step "AWS - Deploy Accept Message Lambda Function" {
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             AWS.Lambda.Runtime = "nodejs14.x"
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Template.Id = "ActionTemplates-702"
+            Octopus.Action.Template.Id = "ActionTemplates-508"
             Octopus.Action.Template.Version = "5"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "Demo Worker Pool"
 
         container {
             feed = "Docker Hub"
@@ -65,11 +65,11 @@ step "AWS - Deploy Process Message Lambda Function" {
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             AWS.Lambda.Runtime = "dotnetcore3.1"
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Template.Id = "ActionTemplates-702"
+            Octopus.Action.Template.Id = "ActionTemplates-508"
             Octopus.Action.Template.Version = "5"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "Demo Worker Pool"
 
         container {
             feed = "Docker Hub"
@@ -105,11 +105,11 @@ step "AWS - Configure Accept Message Lambda Alias" {
             AWS.Lambda.Function.Name = "#{Octopus.Action[AWS - Deploy Accept Message Lambda Function].Output.LambdaArn}"
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Template.Id = "ActionTemplates-1862"
+            Octopus.Action.Template.Id = "ActionTemplates-510"
             Octopus.Action.Template.Version = "1"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "Demo Worker Pool"
 
         container {
             feed = "Docker Hub"
@@ -134,11 +134,11 @@ step "AWS - Configure Process Message Lambda Alias" {
             AWS.Lambda.Function.Name = "#{Octopus.Action[AWS - Deploy Process Message Lambda Function].Output.LambdaArn}"
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Template.Id = "ActionTemplates-1862"
+            Octopus.Action.Template.Id = "ActionTemplates-510"
             Octopus.Action.Template.Version = "1"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "Demo Worker Pool"
 
         container {
             feed = "Docker Hub"
@@ -165,11 +165,11 @@ step "AWS - Configure Lambda API Gateway Integration" {
             AWS.Api.Gateway.Region = "#{Project.AWS.Region}"
             AWS.Api.Gateway.Route.Key = "/octopus/webhook"
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Template.Id = "ActionTemplates-1863"
+            Octopus.Action.Template.Id = "ActionTemplates-511"
             Octopus.Action.Template.Version = "1"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "Demo Worker Pool"
 
         container {
             feed = "Docker Hub"
