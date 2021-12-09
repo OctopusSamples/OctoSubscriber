@@ -184,6 +184,10 @@ step "AWS - Configure Lambda API Gateway Integration" {
 }
 
 step "Run a Script" {
+    condition = "Variable"
+    properties = {
+        Octopus.Step.ConditionVariableExpression = "#{if Octopus.Release.Git.BranchName == \"main\"}False#{else}True#{/if}"
+    }
 
     action {
         action_type = "Octopus.Script"
