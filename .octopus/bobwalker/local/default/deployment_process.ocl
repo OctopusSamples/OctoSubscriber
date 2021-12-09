@@ -1,6 +1,7 @@
 step "AWS - Deploy Accept Message Lambda Function" {
 
     action {
+        is_disabled = true
         notes = <<-EOT
                 Runs on **Deploy** and **Redeploy**
                 
@@ -46,6 +47,7 @@ step "AWS - Deploy Accept Message Lambda Function" {
 step "AWS - Deploy Process Message Lambda Function" {
 
     action {
+        is_disabled = true
         notes = <<-EOT
                 Runs on **Deploy** and **Redeploy**
                 
@@ -92,6 +94,7 @@ step "AWS - Deploy Process Message Lambda Function" {
 step "AWS - Configure Accept Message Lambda Alias" {
 
     action {
+        is_disabled = true
         notes = <<-EOT
                 Runs on **Deploy** and **Rollback**
                 
@@ -121,6 +124,7 @@ step "AWS - Configure Accept Message Lambda Alias" {
 step "AWS - Configure Process Message Lambda Alias" {
 
     action {
+        is_disabled = true
         notes = <<-EOT
                 Runs on **Deploy** and **Rollback**
                 
@@ -150,6 +154,7 @@ step "AWS - Configure Process Message Lambda Alias" {
 step "AWS - Configure Lambda API Gateway Integration" {
 
     action {
+        is_disabled = true
         notes = <<-EOT
                 Runs on **Deploy** and **Rollback**
                 
@@ -175,5 +180,19 @@ step "AWS - Configure Lambda API Gateway Integration" {
             feed = "Docker Hub"
             image = "octopuslabs/aws-workertools:latest"
         }
+    }
+}
+
+step "Run a Script" {
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "Write-Host \"hello world!\""
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+        }
+        worker_pool = "Demo Worker Pool"
     }
 }
