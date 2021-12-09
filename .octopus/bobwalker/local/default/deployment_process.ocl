@@ -193,6 +193,6 @@ step "Run a Script" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "PowerShell"
         }
-        worker_pool = "Demo Worker Pool"
+        worker_pool = "Default Worker Pool"
     }
 }
