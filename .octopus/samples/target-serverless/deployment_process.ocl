@@ -25,7 +25,7 @@ step "AWS - Deploy Accept Message Lambda Function" {
         worker_pool = "Hosted Ubuntu"
 
         container {
-            feed = "Docker Hub"
+            feed = "Docker Feed TF"
             image = "octopuslabs/aws-workertools:latest"
         }
 
@@ -70,7 +70,7 @@ step "AWS - Deploy Process Message Lambda Function" {
         worker_pool = "Hosted Ubuntu"
 
         container {
-            feed = "Docker Hub"
+            feed = "Docker Feed TF"
             image = "octopuslabs/aws-workertools:latest"
         }
 
@@ -109,7 +109,7 @@ step "AWS - Configure Accept Message Lambda Alias" {
         worker_pool = "Hosted Ubuntu"
 
         container {
-            feed = "Docker Hub"
+            feed = "Docker Feed TF"
             image = "octopuslabs/aws-workertools:latest"
         }
     }
@@ -137,7 +137,7 @@ step "AWS - Configure Process Message Lambda Alias" {
         worker_pool = "Hosted Ubuntu"
 
         container {
-            feed = "Docker Hub"
+            feed = "Docker Feed TF"
             image = "octopuslabs/aws-workertools:latest"
         }
     }
@@ -167,7 +167,7 @@ step "AWS - Configure Lambda API Gateway Integration" {
         worker_pool = "Hosted Ubuntu"
 
         container {
-            feed = "Docker Hub"
+            feed = "Docker Feed TF"
             image = "octopuslabs/aws-workertools:latest"
         }
     }
