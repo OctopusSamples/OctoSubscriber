@@ -48,7 +48,7 @@ step "AWS - Deploy Process Message Lambda Function" {
         notes = <<-EOT
                 Runs on **Deploy** and **Redeploy**
                 
-                Deploys the Accept Message Lambda function for the OctoSubscriber application.
+                Deploys the Accept Message Lambda function for the OctoSubscriber application to AWS.
             EOT
         properties = {
             AWS.Lambda.Account = "Project.AWS.Account"
