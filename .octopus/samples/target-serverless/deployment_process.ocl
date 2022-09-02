@@ -23,7 +23,7 @@ step "aws-deploy-accept-message-lambda-function" {
             Octopus.Action.Template.Version = "5"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "aws-worker-pool-tf"
 
         container {
             feed = "docker-feed-tf"
