@@ -1,4 +1,5 @@
-step "AWS - Deploy Accept Message Lambda Function" {
+step "aws-deploy-accept-message-lambda-function" {
+    name = "AWS - Deploy Accept Message Lambda Function"
 
     action {
         notes = <<-EOT
@@ -14,7 +15,7 @@ step "AWS - Deploy Accept Message Lambda Function" {
             AWS.Lambda.FunctionName = "#{Project.AWS.Lambda.AcceptMessage.FunctionName}"
             AWS.Lambda.FunctionRole = "#{Project.AWS.Lamba.Role.ARN}"
             AWS.Lambda.MemorySize = "128"
-            AWS.Lambda.Package = "{\"PackageId\":\"OctoSubscriber-AcceptMessage-Lambda\",\"FeedId\":\"Octopus Server (built-in)\"}"
+            AWS.Lambda.Package = "{\"PackageId\":\"OctoSubscriber-AcceptMessage-Lambda\",\"FeedId\":\"octopus-server-built-in\"}"
             AWS.Lambda.Publish = "Yes"
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             AWS.Lambda.Runtime = "nodejs14.x"
@@ -22,16 +23,16 @@ step "AWS - Deploy Accept Message Lambda Function" {
             Octopus.Action.Template.Version = "5"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "hosted-ubuntu"
 
         container {
-            feed = "Docker Feed TF"
+            feed = "docker-feed-tf"
             image = "octopuslabs/aws-workertools:latest"
         }
 
         packages "AWS.Lambda.Package" {
             acquisition_location = "Server"
-            feed = "Octopus Server (built-in)"
+            feed = "octopus-server-built-in"
             package_id = "OctoSubscriber-AcceptMessage-Lambda"
             properties = {
                 Extract = "False"
@@ -42,7 +43,8 @@ step "AWS - Deploy Accept Message Lambda Function" {
     }
 }
 
-step "AWS - Deploy Process Message Lambda Function" {
+step "aws-deploy-process-message-lambda-function" {
+    name = "AWS - Deploy Process Message Lambda Function"
 
     action {
         notes = <<-EOT
@@ -59,7 +61,7 @@ step "AWS - Deploy Process Message Lambda Function" {
             AWS.Lambda.FunctionRole = "#{Project.AWS.Lamba.Role.ARN}"
             AWS.Lambda.FunctionTimeout = "30"
             AWS.Lambda.MemorySize = "128"
-            AWS.Lambda.Package = "{\"PackageId\":\"OctoSubscriber-ProcessMessage-Lambda\",\"FeedId\":\"Octopus Server (built-in)\"}"
+            AWS.Lambda.Package = "{\"PackageId\":\"OctoSubscriber-ProcessMessage-Lambda\",\"FeedId\":\"octopus-server-built-in\"}"
             AWS.Lambda.Publish = "Yes"
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             AWS.Lambda.Runtime = "dotnetcore3.1"
@@ -67,16 +69,16 @@ step "AWS - Deploy Process Message Lambda Function" {
             Octopus.Action.Template.Version = "5"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "hosted-ubuntu"
 
         container {
-            feed = "Docker Feed TF"
+            feed = "docker-feed-tf"
             image = "octopuslabs/aws-workertools:latest"
         }
 
         packages "AWS.Lambda.Package" {
             acquisition_location = "Server"
-            feed = "Octopus Server (built-in)"
+            feed = "octopus-server-built-in"
             package_id = "OctoSubscriber-ProcessMessage-Lambda"
             properties = {
                 Extract = "False"
@@ -87,7 +89,8 @@ step "AWS - Deploy Process Message Lambda Function" {
     }
 }
 
-step "AWS - Configure Accept Message Lambda Alias" {
+step "aws-configure-accept-message-lambda-alias" {
+    name = "AWS - Configure Accept Message Lambda Alias"
 
     action {
         notes = <<-EOT
@@ -106,16 +109,17 @@ step "AWS - Configure Accept Message Lambda Alias" {
             Octopus.Action.Template.Version = "1"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "hosted-ubuntu"
 
         container {
-            feed = "Docker Feed TF"
+            feed = "docker-feed-tf"
             image = "octopuslabs/aws-workertools:latest"
         }
     }
 }
 
-step "AWS - Configure Process Message Lambda Alias" {
+step "aws-configure-process-message-lambda-alias" {
+    name = "AWS - Configure Process Message Lambda Alias"
 
     action {
         notes = <<-EOT
@@ -134,16 +138,17 @@ step "AWS - Configure Process Message Lambda Alias" {
             Octopus.Action.Template.Version = "1"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "hosted-ubuntu"
 
         container {
-            feed = "Docker Feed TF"
+            feed = "docker-feed-tf"
             image = "octopuslabs/aws-workertools:latest"
         }
     }
 }
 
-step "AWS - Configure Lambda API Gateway Integration" {
+step "aws-configure-lambda-api-gateway-integration" {
+    name = "AWS - Configure Lambda API Gateway Integration"
 
     action {
         notes = <<-EOT
@@ -164,10 +169,10 @@ step "AWS - Configure Lambda API Gateway Integration" {
             Octopus.Action.Template.Version = "1"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "Hosted Ubuntu"
+        worker_pool = "hosted-ubuntu"
 
         container {
-            feed = "Docker Feed TF"
+            feed = "docker-feed-tf"
             image = "octopuslabs/aws-workertools:latest"
         }
     }
