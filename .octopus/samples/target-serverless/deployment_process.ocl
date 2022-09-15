@@ -53,7 +53,7 @@ step "aws-deploy-process-message-lambda-function" {
                 Deploys the Accept Message Lambda function for the OctoSubscriber application to AWS.
             EOT
         properties = {
-            AWS.Lambda.Account = "Project.AWS.Account"
+            AWS.Lambda.Account = "AWS.Account"
             AWS.Lambda.Description = "Function to accept subscriber messages from an Octopus Server and put them on a queue"
             AWS.Lambda.EnvironmentVariables = "OCTOPUS_SERVER_URL=#{Global.Base.Url},OCTOPUS_API_KEY=#{Global.Api.Key}"
             AWS.Lambda.FunctionHandler = "process_message::process_message.Function::FunctionHandler"
@@ -69,7 +69,7 @@ step "aws-deploy-process-message-lambda-function" {
             Octopus.Action.Template.Version = "5"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "aws-worker-pool-tf"
 
         container {
             feed = "docker-feed-tf"
@@ -99,7 +99,7 @@ step "aws-configure-accept-message-lambda-alias" {
                 Updates the Live alias in the Accept Message Lambda function to send a certain traffic percent to the latest version.
             EOT
         properties = {
-            AWS.Lambda.Account = "Project.AWS.Account"
+            AWS.Lambda.Account = "AWS.Account"
             AWS.Lambda.Alias.FunctionVersion = "#{Octopus.Action[AWS - Deploy Accept Message Lambda Function].Output.PublishedVersion}"
             AWS.Lambda.Alias.Name = "Live"
             AWS.Lambda.Alias.Percent = "100"
@@ -109,7 +109,7 @@ step "aws-configure-accept-message-lambda-alias" {
             Octopus.Action.Template.Version = "1"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "aws-worker-pool-tf"
 
         container {
             feed = "docker-feed-tf"
@@ -128,7 +128,7 @@ step "aws-configure-process-message-lambda-alias" {
                 Updates the Live alias in the Process Message Lambda function to send a certain traffic percent to the latest version.
             EOT
         properties = {
-            AWS.Lambda.Account = "Project.AWS.Account"
+            AWS.Lambda.Account = "AWS.Account"
             AWS.Lambda.Alias.FunctionVersion = "#{Octopus.Action[AWS - Deploy Process Message Lambda Function].Output.PublishedVersion}"
             AWS.Lambda.Alias.Name = "Live"
             AWS.Lambda.Alias.Percent = "100"
@@ -138,7 +138,7 @@ step "aws-configure-process-message-lambda-alias" {
             Octopus.Action.Template.Version = "1"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "aws-worker-pool-tf"
 
         container {
             feed = "docker-feed-tf"
@@ -157,7 +157,7 @@ step "aws-configure-lambda-api-gateway-integration" {
                 Creates the API gateway integration if it does not already exist.
             EOT
         properties = {
-            AWS.Api.Gateway.Account = "Project.AWS.Account"
+            AWS.Api.Gateway.Account = "AWS.Account"
             AWS.Api.Gateway.Integration.HttpMethod = "ANY"
             AWS.Api.Gateway.Integration.PayloadFormatVersion = "2.0"
             AWS.Api.Gateway.Lambda.Alias = "Live"
@@ -169,7 +169,7 @@ step "aws-configure-lambda-api-gateway-integration" {
             Octopus.Action.Template.Version = "1"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "aws-worker-pool-tf"
 
         container {
             feed = "docker-feed-tf"
