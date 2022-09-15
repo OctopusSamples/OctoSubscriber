@@ -8,7 +8,7 @@ step "aws-deploy-accept-message-lambda-function" {
                 Deploys the Accept Message Lambda function for the OctoSubscriber application.
             EOT
         properties = {
-            AWS.Lambda.Account = "Project.AWS.Account"
+            AWS.Lambda.Account = "AWS.Account"
             AWS.Lambda.Description = "Function to accept subscriber messages from an Octopus Server and put them on a queue"
             AWS.Lambda.EnvironmentVariables = "sqsqueue=#{Project.AWS.Queue.Url},sqsregion=#{Project.AWS.Region}"
             AWS.Lambda.FunctionHandler = "index.handler"
