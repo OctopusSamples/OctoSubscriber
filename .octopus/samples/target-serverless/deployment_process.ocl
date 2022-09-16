@@ -20,8 +20,7 @@ step "aws-deploy-accept-message-lambda-function" {
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             AWS.Lambda.Runtime = "nodejs14.x"
             Octopus.Action.Template.Id = "ActionTemplates-702"
-            Octopus.Action.Template.Version = "5"
-            OctopusUseBundledTooling = "False"
+            Octopus.Action.Template.Version = "6"
         }
         worker_pool = "aws-worker-pool-tf"
 
