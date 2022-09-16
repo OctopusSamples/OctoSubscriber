@@ -189,7 +189,7 @@ step "create-function-urls" {
             Octopus.Action.Script.ScriptBody = <<-EOT
                 aws --version
                 
-                aws lambda get-function-configuration --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}"
+                aws lambda get-function-url-config --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}"
                 
                 # Create the accept message function url config
                 #aws lambda create-function-url-config --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}" --auth-type "NONE"
@@ -204,7 +204,7 @@ step "create-function-urls" {
 
         container {
             feed = "docker-feed-tf"
-            image = " octopuslabs/aws-workertools"
+            image = "octopuslabs/aws-workertools"
         }
     }
 }
