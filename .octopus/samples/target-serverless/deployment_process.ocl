@@ -204,7 +204,7 @@ step "create-function-urls" {
 
         container {
             feed = "docker-feed-tf"
-            image = "octopusdeploy/worker-tools:3-ubuntu.18.04"
+            image = " octopuslabs/aws-workertools"
         }
     }
 }
