@@ -190,10 +190,11 @@ step "create-function-urls" {
                 # Get list of configured urls
                 $functionUrls = (aws lambda list-function-url-configs --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}" | ConvertFrom-Json)
                 
-                Write-Host "It is $functionUrls"
-                
-                # Create the accept message function url config
-                #aws lambda create-function-url-config --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}" --auth-type "NONE"
+                if ($functionUrls.FunctionUrlConfigs.Count -eq 0)
+                {
+                	# Create the accept message function url config
+                	aws lambda create-function-url-config --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}" --auth-type "NONE"
+                }   
                 
                 
             EOT
