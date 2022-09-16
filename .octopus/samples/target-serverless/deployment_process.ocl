@@ -192,7 +192,8 @@ step "create-function-urls" {
                 
                 if ($functionUrls.FunctionUrlConfigs.Count -eq 0)
                 {
-                	# Create the accept message function url config
+                    # Create the accept message function url config
+                    Write-Host "#{Project.AWS.Lambda.AcceptMessage.FunctionName} doesn't have a url configured, creating ..."
                 	aws lambda create-function-url-config --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}" --auth-type "NONE"
                 }   
                 
