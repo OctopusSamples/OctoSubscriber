@@ -187,8 +187,10 @@ step "create-function-urls" {
             Octopus.Action.AwsAccount.UseInstanceRole = "False"
             Octopus.Action.AwsAccount.Variable = "AWS.Account"
             Octopus.Action.Script.ScriptBody = <<-EOT
+                aws lambda get-function-url-config --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}"
+                
                 # Create the accept message function url config
-                aws lambda create-function-url-config --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}" --auth-type "NONE"
+                #aws lambda create-function-url-config --function-name "#{Project.AWS.Lambda.AcceptMessage.FunctionName}" --auth-type "NONE"
                 
                 
             EOT
