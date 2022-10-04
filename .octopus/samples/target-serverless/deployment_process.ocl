@@ -91,7 +91,6 @@ step "aws-configure-accept-message-lambda-alias" {
     name = "AWS - Configure Accept Message Lambda Alias"
 
     action {
-        is_disabled = true
         notes = <<-EOT
                 Runs on **Deploy** and **Rollback**
                 
@@ -113,30 +112,6 @@ step "aws-configure-accept-message-lambda-alias" {
         container {
             feed = "docker-feed-tf"
             image = "octopuslabs/aws-workertools:latest"
-        }
-    }
-}
-
-step "aws-configure-lambda-alias-copy" {
-    name = "AWS - Configure Lambda Alias Copy"
-
-    action {
-        properties = {
-            AWS.Lambda.Account = "AWS.Account"
-            AWS.Lambda.Alias.FunctionVersion = "#{Octopus.Action[AWS - Deploy Accept Message Lambda Function].Output.PublishedVersion}"
-            AWS.Lambda.Alias.Name = "Live"
-            AWS.Lambda.Alias.Percent = "100"
-            AWS.Lambda.Function.Name = "#{Octopus.Action[AWS - Deploy Accept Message Lambda Function].Output.LambdaArn}"
-            AWS.Lambda.Region = "#{Project.AWS.Region}"
-            Octopus.Action.Template.Id = "ActionTemplates-2541"
-            Octopus.Action.Template.Version = "0"
-            OctopusUseBundledTooling = "False"
-        }
-        worker_pool = "aws-worker-pool-tf"
-
-        container {
-            feed = "docker-feed-tf"
-            image = "octopusdeploy/worker-tools:3-ubuntu.18.04"
         }
     }
 }
@@ -174,7 +149,6 @@ step "aws-configure-lambda-api-gateway-integration" {
     name = "AWS - Configure Lambda API Gateway Integration"
 
     action {
-        is_disabled = true
         notes = <<-EOT
                 Runs on **Deploy** and **Rollback**
                 
@@ -198,32 +172,6 @@ step "aws-configure-lambda-api-gateway-integration" {
         container {
             feed = "docker-feed-tf"
             image = "octopuslabs/aws-workertools:latest"
-        }
-    }
-}
-
-step "aws-configure-lambda-api-gateway-integration-copy" {
-    name = "AWS - Configure Lambda API Gateway Integration Copy"
-
-    action {
-        properties = {
-            AWS.Api.Gateway.Account = "AWS.Account"
-            AWS.Api.Gateway.Integration.HttpMethod = "ANY"
-            AWS.Api.Gateway.Integration.PayloadFormatVersion = "2.0"
-            AWS.Api.Gateway.Lambda.Alias = "Live"
-            AWS.Api.Gateway.Lambda.Arn = "#{Octopus.Action[AWS - Deploy Accept Message Lambda Function].Output.LambdaArn}"
-            AWS.Api.Gateway.Name = "#{Project.AWS.API.Gateway.Name}"
-            AWS.Api.Gateway.Region = "#{AWS.US.Primary.Region}"
-            AWS.Api.Gateway.Route.Key = "/octopus/webhook"
-            Octopus.Action.Template.Id = "ActionTemplates-2542"
-            Octopus.Action.Template.Version = "0"
-            OctopusUseBundledTooling = "False"
-        }
-        worker_pool = "aws-worker-pool-tf"
-
-        container {
-            feed = "docker-feed-tf"
-            image = "octopusdeploy/worker-tools:3-ubuntu.18.04"
         }
     }
 }
