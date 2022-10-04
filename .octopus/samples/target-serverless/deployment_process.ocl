@@ -214,7 +214,7 @@ step "aws-configure-lambda-api-gateway-integration-copy" {
             AWS.Api.Gateway.Lambda.Arn = "#{Octopus.Action[AWS - Deploy Accept Message Lambda Function].Output.LambdaArn}"
             AWS.Api.Gateway.Name = "#{Project.AWS.API.Gateway.Name}"
             AWS.Api.Gateway.Region = "#{AWS.US.Primary.Region}"
-            AWS.Api.Gateway.Route.Key = "$default/octopus/webhook"
+            AWS.Api.Gateway.Route.Key = "/octopus/webhook"
             Octopus.Action.Template.Id = "ActionTemplates-2542"
             Octopus.Action.Template.Version = "0"
             OctopusUseBundledTooling = "False"
