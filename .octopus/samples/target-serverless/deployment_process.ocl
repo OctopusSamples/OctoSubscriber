@@ -104,8 +104,7 @@ step "aws-configure-accept-message-lambda-alias" {
             AWS.Lambda.Function.Name = "#{Octopus.Action[AWS - Deploy Accept Message Lambda Function].Output.LambdaArn}"
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             Octopus.Action.Template.Id = "ActionTemplates-1862"
-            Octopus.Action.Template.Version = "1"
-            OctopusUseBundledTooling = "False"
+            Octopus.Action.Template.Version = "2"
         }
         worker_pool = "aws-worker-pool-tf"
 
