@@ -162,8 +162,7 @@ step "aws-configure-lambda-api-gateway-integration" {
             AWS.Api.Gateway.Region = "#{Project.AWS.Region}"
             AWS.Api.Gateway.Route.Key = "/octopus/webhook"
             Octopus.Action.Template.Id = "ActionTemplates-1863"
-            Octopus.Action.Template.Version = "1"
-            OctopusUseBundledTooling = "False"
+            Octopus.Action.Template.Version = "2"
         }
         worker_pool = "aws-worker-pool-tf"
 
