@@ -59,8 +59,7 @@ step "aws-deploy-lambda-function-copy" {
             AWS.Lambda.Region = "#{AWS.US.Primary.Region}"
             AWS.Lambda.Runtime = "nodejs14.x"
             Octopus.Action.Template.Id = "ActionTemplates-2485"
-            Octopus.Action.Template.Version = "3"
-            OctopusUseBundledTooling = "False"
+            Octopus.Action.Template.Version = "4"
         }
         worker_pool = "aws-worker-pool-tf"
 
