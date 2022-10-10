@@ -63,11 +63,6 @@ step "aws-deploy-lambda-function-copy" {
         }
         worker_pool = "aws-worker-pool-tf"
 
-        container {
-            feed = "docker-feed-tf"
-            image = "octopusdeploy/worker-tools:3-ubuntu.18.04"
-        }
-
         packages "AWS.Lambda.Package" {
             acquisition_location = "Server"
             feed = "octopus-server-built-in"
