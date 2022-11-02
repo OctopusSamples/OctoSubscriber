@@ -2,7 +2,6 @@ step "aws-deploy-accept-message-lambda-function" {
     name = "AWS - Deploy Accept Message Lambda Function"
 
     action {
-        is_disabled = true
         notes = <<-EOT
                 Runs on **Deploy** and **Redeploy**
                 
@@ -47,6 +46,7 @@ step "aws-deploy-lambda-function-copy" {
     name = "AWS - Deploy Lambda Function Copy"
 
     action {
+        is_disabled = true
         properties = {
             AWS.Lambda.Account = "AWS.Account"
             AWS.Lambda.EnvironmentVariables = "sqsqueue=#{Project.AWS.Queue.Url},sqsregion=#{Project.AWS.Region}"
