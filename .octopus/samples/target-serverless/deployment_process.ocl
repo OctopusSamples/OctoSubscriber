@@ -24,11 +24,6 @@ step "aws-deploy-accept-message-lambda-function" {
         }
         worker_pool = "aws-worker-pool-tf"
 
-        container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
-        }
-
         packages "AWS.Lambda.Package" {
             acquisition_location = "Server"
             feed = "octopus-server-built-in"
@@ -108,11 +103,6 @@ step "aws-deploy-process-message-lambda-function" {
         }
         worker_pool = "aws-worker-pool-tf"
 
-        container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
-        }
-
         packages "AWS.Lambda.Package" {
             acquisition_location = "Server"
             feed = "octopus-server-built-in"
@@ -146,11 +136,6 @@ step "aws-configure-accept-message-lambda-alias" {
             Octopus.Action.Template.Version = "2"
         }
         worker_pool = "aws-worker-pool-tf"
-
-        container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
-        }
     }
 }
 
@@ -174,11 +159,6 @@ step "aws-configure-process-message-lambda-alias" {
             Octopus.Action.Template.Version = "2"
         }
         worker_pool = "aws-worker-pool-tf"
-
-        container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
-        }
     }
 }
 
@@ -204,11 +184,6 @@ step "aws-configure-lambda-api-gateway-integration" {
             Octopus.Action.Template.Version = "2"
         }
         worker_pool = "aws-worker-pool-tf"
-
-        container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
-        }
     }
 }
 
