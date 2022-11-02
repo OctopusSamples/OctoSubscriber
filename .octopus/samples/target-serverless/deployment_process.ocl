@@ -21,8 +21,14 @@ step "aws-deploy-accept-message-lambda-function" {
             AWS.Lambda.Runtime = "nodejs14.x"
             Octopus.Action.Template.Id = "ActionTemplates-702"
             Octopus.Action.Template.Version = "8"
+            OctopusUseBundledTooling = "False"
         }
         worker_pool = "aws-worker-pool-tf"
+
+        container {
+            feed = "docker-feed-tf"
+            image = "octopuslabs/aws-workertools:latest"
+        }
 
         packages "AWS.Lambda.Package" {
             acquisition_location = "Server"
@@ -100,8 +106,14 @@ step "aws-deploy-process-message-lambda-function" {
             AWS.Lambda.Runtime = "dotnetcore3.1"
             Octopus.Action.Template.Id = "ActionTemplates-702"
             Octopus.Action.Template.Version = "8"
+            OctopusUseBundledTooling = "False"
         }
         worker_pool = "aws-worker-pool-tf"
+
+        container {
+            feed = "docker-feed-tf"
+            image = "octopuslabs/aws-workertools:latest"
+        }
 
         packages "AWS.Lambda.Package" {
             acquisition_location = "Server"
@@ -134,8 +146,14 @@ step "aws-configure-accept-message-lambda-alias" {
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             Octopus.Action.Template.Id = "ActionTemplates-1862"
             Octopus.Action.Template.Version = "2"
+            OctopusUseBundledTooling = "False"
         }
         worker_pool = "aws-worker-pool-tf"
+
+        container {
+            feed = "docker-feed-tf"
+            image = "octopuslabs/aws-workertools:latest"
+        }
     }
 }
 
@@ -157,8 +175,14 @@ step "aws-configure-process-message-lambda-alias" {
             AWS.Lambda.Region = "#{Project.AWS.Region}"
             Octopus.Action.Template.Id = "ActionTemplates-1862"
             Octopus.Action.Template.Version = "2"
+            OctopusUseBundledTooling = "False"
         }
         worker_pool = "aws-worker-pool-tf"
+
+        container {
+            feed = "docker-feed-tf"
+            image = "octopuslabs/aws-workertools:latest"
+        }
     }
 }
 
@@ -182,8 +206,14 @@ step "aws-configure-lambda-api-gateway-integration" {
             AWS.Api.Gateway.Route.Key = "/octopus/webhook"
             Octopus.Action.Template.Id = "ActionTemplates-1863"
             Octopus.Action.Template.Version = "2"
+            OctopusUseBundledTooling = "False"
         }
         worker_pool = "aws-worker-pool-tf"
+
+        container {
+            feed = "docker-feed-tf"
+            image = "octopuslabs/aws-workertools:latest"
+        }
     }
 }
 
