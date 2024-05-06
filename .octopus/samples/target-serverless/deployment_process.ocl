@@ -18,7 +18,7 @@ step "aws-deploy-accept-message-lambda-function" {
             AWS.Lambda.Package = "{\"PackageId\":\"OctoSubscriber-AcceptMessage-Lambda\",\"FeedId\":\"octopus-server-built-in\"}"
             AWS.Lambda.Publish = "Yes"
             AWS.Lambda.Region = "#{Project.AWS.Region}"
-            AWS.Lambda.Runtime = "nodejs14.x"
+            AWS.Lambda.Runtime = "nodejs20.x"
             Octopus.Action.Template.Id = "ActionTemplates-702"
             Octopus.Action.Template.Version = "8"
             OctopusUseBundledTooling = "False"
