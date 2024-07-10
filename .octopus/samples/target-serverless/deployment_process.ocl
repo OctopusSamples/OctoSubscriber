@@ -26,8 +26,8 @@ step "aws-deploy-accept-message-lambda-function" {
         worker_pool = "aws-worker-pool-tf"
 
         container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
+            feed = "github-container-registry-feed-tf"
+            image = "octopusdeploylabs/aws-workertools:latest"
         }
 
         packages "AWS.Lambda.Package" {
@@ -111,8 +111,8 @@ step "aws-deploy-process-message-lambda-function" {
         worker_pool = "aws-worker-pool-tf"
 
         container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
+            feed = "github-container-registry-feed-tf"
+            image = "octopusdeploylabs/aws-workertools:latest"
         }
 
         packages "AWS.Lambda.Package" {
@@ -151,8 +151,8 @@ step "aws-configure-accept-message-lambda-alias" {
         worker_pool = "aws-worker-pool-tf"
 
         container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
+            feed = "github-container-registry-feed-tf"
+            image = "octopusdeploylabs/aws-workertools:latest"
         }
     }
 }
@@ -180,8 +180,8 @@ step "aws-configure-process-message-lambda-alias" {
         worker_pool = "aws-worker-pool-tf"
 
         container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
+            feed = "github-container-registry-feed-tf"
+            image = "octopusdeploylabs/aws-workertools:latest"
         }
     }
 }
@@ -211,8 +211,8 @@ step "aws-configure-lambda-api-gateway-integration" {
         worker_pool = "aws-worker-pool-tf"
 
         container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools:latest"
+            feed = "github-container-registry-feed-tf"
+            image = "octopusdeploylabs/aws-workertools:latest"
         }
     }
 }
@@ -247,8 +247,8 @@ step "create-function-urls" {
         worker_pool = "aws-worker-pool-tf"
 
         container {
-            feed = "docker-feed-tf"
-            image = "octopuslabs/aws-workertools"
+            feed = "github-container-registry-feed-tf"
+            image = "octopusdeploylabs/aws-workertools:latest"
         }
     }
 }
