@@ -38,3 +38,7 @@ jobs:
       - name: Build process-message
         working-directory: azure/process_message/process_message
         run: dotnet build --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/process-message"
+
+      - name: Package process-message
+        working-directory: "$GITHUB_WORKSPACE/artifacts/process-message"
+        run: dotnet pack --configuration Release --no-build --output "$GITHUB_WORKSPACE/artifacts"
