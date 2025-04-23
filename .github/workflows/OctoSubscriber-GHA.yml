@@ -40,5 +40,5 @@ jobs:
         run: dotnet build --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/process-message"
 
       - name: Package process-message
-        working-directory: "${{ env.GITHUB_WORKSPACE }}/artifacts/process-message"
+        working-directory: "${{ github.workspace }}/artifacts/process-message"
         run: dotnet pack --configuration Release --no-build --output "$GITHUB_WORKSPACE/artifacts"
