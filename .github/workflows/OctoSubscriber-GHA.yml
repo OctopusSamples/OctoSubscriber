@@ -46,9 +46,9 @@ jobs:
       - uses: vimtor/action-zip@v1.2
         name: Zip process-message
         with:
-          files: $GITHUB_WORKSPACE/artifacts/process-message
+          files: ${{ github.workspace }}/artifacts/process-message
           recursive: true
-          dest: $GITHUB_WORKSPACE/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
+          dest: ${{ github.workspace }}/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
 
       # - name: Package process-message
       #   run: |
