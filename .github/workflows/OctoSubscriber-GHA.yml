@@ -44,20 +44,12 @@ jobs:
         run: dotnet build --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/process-message"
 
       - name: Package process-message
-        uses: OctopusDeploy/create-nuget-package-action@v3
-        with:
-          version: ${{ env.PACKAGE_VERSION }}
-          package_id: OctopusSamples.process-message
-          output_folder: "${{ github.workspace }}/artifacts"
-          base_path: "${{ github.workspace }}/artifacts/process-message"
-          files: |
-            *.*
-          nuspec_authors: Octopus Deploy
-          nuspec_description: Octopus Samples Process Message example Azure Function
+        run: |
+          dotnet pack azure/process_message/process_message/ProcessMessage.csproj --configuration Release --no-build --output "$GITHUB_WORKSPACE/artifacts" /p:Version=$PACKAGE_VERSION /p:PackageVersion=$PACKAGE_VERSION /p:PackageId=OctopusSamples.process-message
 
       - name: Add source
         run: |
-          dotnet nuget add source "https://nuget.pkg.github.com/twerthi/OctoSubscriber/index.json" --username OctopusSamples --password ${{ secrets.GHA_TOKEN }} --store-password-in-clear-text --name github 
+          dotnet nuget add source "https://nuget.pkg.github.com/twerthi/index.json" --username OctopusSamples --password ${{ secrets.GHA_TOKEN }} --store-password-in-clear-text --name github 
       - name: Push packages to GitHub Packages NuGet feed
         run: |
           dotnet nuget push "$GITHUB_WORKSPACE/artifacts/OctopusSamples.process-message.$PACKAGE_VERSION.nupkg"  --api-key ${{ secrets.GHA_TOKEN }} --source "github"
