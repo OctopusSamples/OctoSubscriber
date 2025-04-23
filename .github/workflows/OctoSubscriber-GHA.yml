@@ -3,9 +3,9 @@
 name: Azure Function - GHA
 
 on:
-  push:
-    paths:
-      - 'azure/**'
+  # push:
+  #   paths:
+  #     - 'azure/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -44,21 +44,40 @@ jobs:
         run: |
           dotnet build --configuration Release --no-restore --output "${{ github.workspace }}/artifacts/process-message"
 
-      - uses: vimtor/action-zip@v1.2
-        name: Zip process-message
-        with:
-          files: ${{ github.workspace }}/artifacts/process-message
-          recursive: true
-          dest: ${{ github.workspace }}/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
+      - name: Create nuspec file
+        shell: pwsh
+        run: |
+          $nuspec = @"
+          <?xml version="1.0"?>
+          <package >
+            <metadata>
+              <id>OctopusSamples.process-message</id>
+              <version>${{ env.PACKAGE_VERSION }}</version>
+              <authors>OctopusSamples</authors>
+              <owners>OctopusSamples</owners>
+              <description>Octopus Samples process-message</description>
+              <tags>octopus samples</tags>
+              <repository type="git" url="https://github.com/twerthi/OctoSubscriber" />
+            </metadata>
+          </package>
+          "@
+          $nuspec | Out-File -FilePath "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -Encoding utf8
 
-      - uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GHA_TOKEN }}
-        with:
-          tag_name: ${{ env.PACKAGE_VERSION }}
-          draft: false
-          prerelease: false
-          files: ${{ github.workspace }}/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
+      # - uses: vimtor/action-zip@v1.2
+      #   name: Zip process-message
+      #   with:
+      #     files: ${{ github.workspace }}/artifacts/process-message
+      #     recursive: true
+      #     dest: ${{ github.workspace }}/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
+
+      # - uses: softprops/action-gh-release@v2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GHA_TOKEN }}
+      #   with:
+      #     tag_name: ${{ env.PACKAGE_VERSION }}
+      #     draft: false
+      #     prerelease: false
+      #     files: ${{ github.workspace }}/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
 
       # - name: Upload Release Asset
       #   id: upload-release-asset 
@@ -71,10 +90,11 @@ jobs:
       #     asset_name: process-message.${{ env.PACKAGE_VERSION }}.zip
       #     asset_content_type: application/zip          
 
-      # - name: Package process-message
-      #   run: |
-      #     dotnet pack azure/process_message/process_message/process_message.csproj --configuration Release --no-build --output "${{ github.workspace }}/artifacts" /p:Version=${{ env.PACKAGE_VERSION }} /p:PackageVersion=${{ env.PACKAGE_VERSION }} /p:PackageId=OctopusSamples.process-message
-      #     ls "${{ github.workspace }}/artifacts/process-message"
+      - name: Package process-message
+        run: |
+          dotnet pack azure/process_message/process_message/process_message.csproj --configuration Release --no-build --output "${{ github.workspace }}/artifacts" -p:NuspecFile="${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec"
+          ls "${{ github.workspace }}/artifacts/process-message"
+
 
       # - name: Add source
       #   run: |
