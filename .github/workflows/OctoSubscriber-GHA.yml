@@ -24,6 +24,10 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
+      - uses: actions/checkout@v2
+      - name: Set Version
+        run: echo "PACKAGE_VERSION=$(date +'%Y.%-m.%-d').$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
       - name: Create artifacts folder
         run: |
           mkdir "$GITHUB_WORKSPACE/artifacts"
@@ -40,5 +44,13 @@ jobs:
         run: dotnet build --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/process-message"
 
       - name: Package process-message
-        working-directory: "${{ github.workspace }}/artifacts/process-message"
-        run: dotnet pack --configuration Release --no-build --output "$GITHUB_WORKSPACE/artifacts"
+        uses: OctopusDeploy/create-nuget-package-action@v3
+        with:
+          version: ${{ env.PACKAGE_VERSION }}
+          package_id: OctopusSamples.process-message
+          output_folder: "$GITHUB_WORKSPACE/artifacts"
+          base_path: "${{ github.workspace }}/artifacts/process-message"
+          files: |
+            *.*
+          nuspec_authors: Octopus Deploy
+          nuspec_description: Octopus Samples Process Message example Azure Function
