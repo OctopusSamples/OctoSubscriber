@@ -48,7 +48,7 @@ jobs:
         with:
           version: ${{ env.PACKAGE_VERSION }}
           package_id: OctopusSamples.process-message
-          output_folder: "$GITHUB_WORKSPACE/artifacts"
+          output_folder: "${{ github.workspace }}/artifacts"
           base_path: "${{ github.workspace }}/artifacts/process-message"
           files: |
             *.*
