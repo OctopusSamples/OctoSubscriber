@@ -93,7 +93,7 @@ jobs:
       - name: Package process-message
         run: |
           dotnet pack azure/process_message/process_message/process_message.csproj --configuration Release --output "${{ github.workspace }}/artifacts" -p:PackageVersion=${{ env.PACKAGE_VERSION }}
-          ls "${{ github.workspace }}/artifacts/process-message/process_message"
+          ls "${{ github.workspace }}/artifacts"
 
 
       - name: Add source
