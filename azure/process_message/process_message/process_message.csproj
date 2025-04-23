@@ -18,4 +18,5 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
+  <IsPackable>true</IsPackable>
 </Project>
