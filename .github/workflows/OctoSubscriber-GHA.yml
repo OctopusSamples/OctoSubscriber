@@ -58,6 +58,7 @@ jobs:
           tag_name: ${{ env.PACKAGE_VERSION }}
           draft: false
           prerelease: false
+          files: ${{ github.workspace }}/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
 
       # - name: Upload Release Asset
       #   id: upload-release-asset 
