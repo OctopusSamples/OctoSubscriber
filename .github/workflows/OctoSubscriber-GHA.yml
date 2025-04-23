@@ -30,9 +30,9 @@ jobs:
 
       - name: Create artifacts folder
         run: |
-          mkdir "$GITHUB_WORKSPACE/artifacts"
-          mkdir "$GITHUB_WORKSPACE/artifacts/process-message"
-          mkdir "$GITHUB_WORKSPACE/azure/accept_message/node_modules"
+          mkdir "${{ github.workspace }}/artifacts"
+          mkdir "${{ github.workspace }}/artifacts/process-message"
+          mkdir "${{ github.workspace }}/azure/accept_message/node_modules"
 
 
       - name: Restore dependencies for process-message
@@ -41,7 +41,7 @@ jobs:
 
       - name: Build process-message
         working-directory: azure/process_message/process_message
-        run: dotnet build --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/process-message"
+        run: dotnet build --configuration Release --no-restore --output "${{ github.workspace }}/artifacts/process-message"
 
       - uses: vimtor/action-zip@v1.2
         name: Zip process-message
