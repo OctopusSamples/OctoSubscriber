@@ -45,7 +45,7 @@ jobs:
 
       - name: Package process-message
         run: |
-          dotnet pack azure/process_message/process_message/ProcessMessage.csproj --configuration Release --no-build --output "$GITHUB_WORKSPACE/artifacts" /p:Version=$PACKAGE_VERSION /p:PackageVersion=$PACKAGE_VERSION /p:PackageId=OctopusSamples.process-message
+          dotnet pack azure/process_message/process_message/process_message.csproj --configuration Release --no-build --output "$GITHUB_WORKSPACE/artifacts" /p:Version=$PACKAGE_VERSION /p:PackageVersion=$PACKAGE_VERSION /p:PackageId=OctopusSamples.process-message
 
       - name: Add source
         run: |
