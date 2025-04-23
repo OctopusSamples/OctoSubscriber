@@ -43,14 +43,21 @@ jobs:
         working-directory: azure/process_message/process_message
         run: dotnet build --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/process-message"
 
-      - name: Package process-message
-        run: |
-          dotnet pack azure/process_message/process_message/process_message.csproj --configuration Release --no-build --output "${{ github.workspace }}/artifacts" /p:Version=${{ env.PACKAGE_VERSION }} /p:PackageVersion=${{ env.PACKAGE_VERSION }} /p:PackageId=OctopusSamples.process-message
-          ls "${{ github.workspace }}/artifacts/process-message"
+      - uses: vimtor/action-zip@v1.2
+        name: Zip process-message
+        with:
+          files: $GITHUB_WORKSPACE/artifacts/process-message
+          recursive: true
+          dest: $GITHUB_WORKSPACE/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
 
-      - name: Add source
-        run: |
-          dotnet nuget add source "https://nuget.pkg.github.com/twerthi/index.json" --username OctopusSamples --password ${{ secrets.GHA_TOKEN }} --store-password-in-clear-text --name github 
-      - name: Push packages to GitHub Packages NuGet feed
-        run: |
-          dotnet nuget push "$GITHUB_WORKSPACE/artifacts/OctopusSamples.process-message.$PACKAGE_VERSION.nupkg"  --api-key ${{ secrets.GHA_TOKEN }} --source "github"
+      # - name: Package process-message
+      #   run: |
+      #     dotnet pack azure/process_message/process_message/process_message.csproj --configuration Release --no-build --output "${{ github.workspace }}/artifacts" /p:Version=${{ env.PACKAGE_VERSION }} /p:PackageVersion=${{ env.PACKAGE_VERSION }} /p:PackageId=OctopusSamples.process-message
+      #     ls "${{ github.workspace }}/artifacts/process-message"
+
+      # - name: Add source
+      #   run: |
+      #     dotnet nuget add source "https://nuget.pkg.github.com/twerthi/index.json" --username OctopusSamples --password ${{ secrets.GHA_TOKEN }} --store-password-in-clear-text --name github 
+      # - name: Push packages to GitHub Packages NuGet feed
+      #   run: |
+      #     dotnet nuget push "$GITHUB_WORKSPACE/artifacts/OctopusSamples.process-message.$PACKAGE_VERSION.nupkg"  --api-key ${{ secrets.GHA_TOKEN }} --source "github"
