@@ -44,7 +44,7 @@ jobs:
       - name: Build process-message
         working-directory: azure/process_message/process_message
         run: |
-          dotnet build --configuration Release --no-restore --output "${{ github.workspace }}/artifacts/process-message"
+          dotnet build --configuration Release --no-restore --configuration Release --output "${{ github.workspace }}/artifacts/process-message"
 
       - name: Create nuspec file
         shell: pwsh
