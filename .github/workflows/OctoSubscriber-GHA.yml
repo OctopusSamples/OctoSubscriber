@@ -44,6 +44,7 @@ jobs:
         run: |
           dotnet build --configuration Release --no-restore --output "${{ github.workspace }}/artifacts/process-message"
           ls "${{ github.workspace }}/artifacts/process-message"
+          nuget
 
       # - name: Create nuspec file
       #   shell: pwsh
