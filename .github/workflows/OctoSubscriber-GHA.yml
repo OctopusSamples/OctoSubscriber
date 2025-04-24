@@ -102,9 +102,9 @@ jobs:
       #     ls "${{ github.workspace }}/artifacts"
 
 
-      # - name: Add source
-      #   run: |
-      #     dotnet nuget add source "https://nuget.pkg.github.com/twerthi/index.json" --username OctopusSamples --password ${{ secrets.GHA_TOKEN }} --store-password-in-clear-text --name github 
-      # - name: Push packages to GitHub Packages NuGet feed
-      #   run: |
-      #     dotnet nuget push "${{ github.workspace }}/artifacts/OctopusSamples.process-message.$PACKAGE_VERSION.nupkg"  --api-key ${{ secrets.GHA_TOKEN }} --source "github"
+      - name: Add source
+        run: |
+          dotnet nuget add source "https://nuget.pkg.github.com/twerthi/index.json" --username OctopusSamples --password ${{ secrets.GHA_TOKEN }} --store-password-in-clear-text --name github 
+      - name: Push packages to GitHub Packages NuGet feed
+        run: |
+          dotnet nuget push "${{ github.workspace }}/artifacts/OctopusSamples.process-message.$PACKAGE_VERSION.nupkg"  --api-key ${{ secrets.GHA_TOKEN }} --source "github"
