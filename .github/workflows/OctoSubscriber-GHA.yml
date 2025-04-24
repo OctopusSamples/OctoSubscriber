@@ -63,6 +63,8 @@ jobs:
           </package>
           "@
           $nuspec | Out-File -FilePath "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.$($env:PACKAGE_VERSION).nuspec" -Encoding utf8
+        env:
+          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
 
       - name: Create nuget package
         uses: nuget/setup-nuget@v2
