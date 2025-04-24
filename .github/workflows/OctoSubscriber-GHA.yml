@@ -67,7 +67,8 @@ jobs:
 
       - name: Create nuget package
         uses: nuget/setup-nuget@v2
-      - run: nuget pack "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -OutputDirectory "${{ github.workspace }}/artifacts"
+      - run: nuget pack "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -OutputDirectory "${{ github.workspace }}/artifacts" -version "${{ env.PACKAGE_VERSION }}"
+        shell: pwsh
 
       # - uses: vimtor/action-zip@v1.2
       #   name: Zip process-message
