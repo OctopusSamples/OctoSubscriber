@@ -53,7 +53,7 @@ jobs:
           <package >
             <metadata>
               <id>OctopusSamples.process-message</id>
-              <version>${{ env.PACKAGE_VERSION }}</version>
+              <version>$($env:PACKAGE_VERSION)</version>
               <authors>OctopusSamples</authors>
               <owners>OctopusSamples</owners>
               <description>Octopus Samples process-message</description>
@@ -62,7 +62,7 @@ jobs:
             </metadata>
           </package>
           "@
-          $nuspec | Out-File -FilePath "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -Encoding utf8
+          $nuspec | Out-File -FilePath "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.$($env:PACKAGE_VERSION).nuspec" -Encoding utf8
 
       - name: Create nuget package
         uses: nuget/setup-nuget@v2
