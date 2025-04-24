@@ -43,27 +43,29 @@ jobs:
         working-directory: azure/process_message/process_message
         run: |
           dotnet build --configuration Release --no-restore --output "${{ github.workspace }}/artifacts/process-message"
-          ls "${{ github.workspace }}/artifacts/process-message"
-          nuget
 
-      # - name: Create nuspec file
-      #   shell: pwsh
-      #   run: |
-      #     $nuspec = @"
-      #     <?xml version="1.0"?>
-      #     <package >
-      #       <metadata>
-      #         <id>OctopusSamples.process-message</id>
-      #         <version>${{ env.PACKAGE_VERSION }}</version>
-      #         <authors>OctopusSamples</authors>
-      #         <owners>OctopusSamples</owners>
-      #         <description>Octopus Samples process-message</description>
-      #         <tags>octopus samples</tags>
-      #         <repository type="git" url="https://github.com/twerthi/OctoSubscriber" />
-      #       </metadata>
-      #     </package>
-      #     "@
-      #     $nuspec | Out-File -FilePath "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -Encoding utf8
+      - name: Create nuspec file
+        shell: pwsh
+        run: |
+          $nuspec = @"
+          <?xml version="1.0"?>
+          <package >
+            <metadata>
+              <id>OctopusSamples.process-message</id>
+              <version>${{ env.PACKAGE_VERSION }}</version>
+              <authors>OctopusSamples</authors>
+              <owners>OctopusSamples</owners>
+              <description>Octopus Samples process-message</description>
+              <tags>octopus samples</tags>
+              <repository type="git" url="https://github.com/twerthi/OctoSubscriber" />
+            </metadata>
+          </package>
+          "@
+          $nuspec | Out-File -FilePath "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -Encoding utf8
+
+      - name: Create nuget package
+        uses: nuget/setup-nuget@v2
+      - run: nuget pack "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -OutputDirectory "${{ github.workspace }}/artifacts"
 
       # - uses: vimtor/action-zip@v1.2
       #   name: Zip process-message
