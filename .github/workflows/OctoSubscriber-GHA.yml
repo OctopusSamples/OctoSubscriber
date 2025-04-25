@@ -27,7 +27,6 @@ jobs:
 
       - uses: actions/checkout@v2
       - name: Set Version
-        #run: echo "PACKAGE_VERSION=$(date +'%Y.%-m.%-d').$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
         run: echo "PACKAGE_VERSION=$(Get-Date -Format "yyyy.M.d").${{ github.run_number }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Create artifacts folder
@@ -42,9 +41,10 @@ jobs:
         run: dotnet restore
 
       - name: Build process-message
-        working-directory: azure/process_message/process_message
+#        working-directory: azure/process_message/process_message
+        working-directory: azure/process_message
         run: |
-          dotnet build --configuration Release --no-restore --output "${{ github.workspace }}/artifacts/process-message"
+          dotnet build ./process_message.sln --configuration Release --no-restore --output "${{ github.workspace }}/artifacts/process-message"
 
       - name: Create nuspec file
         shell: pwsh
@@ -69,39 +69,6 @@ jobs:
         uses: nuget/setup-nuget@v2
       - run: nuget pack "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -OutputDirectory "${{ github.workspace }}/artifacts" -version "${{ env.PACKAGE_VERSION }}"
         shell: pwsh
-
-      # - uses: vimtor/action-zip@v1.2
-      #   name: Zip process-message
-      #   with:
-      #     files: ${{ github.workspace }}/artifacts/process-message
-      #     recursive: true
-      #     dest: ${{ github.workspace }}/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
-
-      # - uses: softprops/action-gh-release@v2
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GHA_TOKEN }}
-      #   with:
-      #     tag_name: ${{ env.PACKAGE_VERSION }}
-      #     draft: false
-      #     prerelease: false
-      #     files: ${{ github.workspace }}/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
-
-      # - name: Upload Release Asset
-      #   id: upload-release-asset 
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GHA_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-      #     asset_path: ${{ github.workspace }}/artifacts/process-message.${{ env.PACKAGE_VERSION }}.zip
-      #     asset_name: process-message.${{ env.PACKAGE_VERSION }}.zip
-      #     asset_content_type: application/zip          
-
-      # - name: Package process-message
-      #   run: |
-      #     dotnet pack azure/process_message/process_message/process_message.csproj --configuration Release --output "${{ github.workspace }}/artifacts" -p:PackageVersion=${{ env.PACKAGE_VERSION }}
-      #     ls "${{ github.workspace }}/artifacts"
-
 
       - name: Add source
         run: |
