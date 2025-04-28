@@ -96,9 +96,9 @@ jobs:
           "@
           $nuspec | Out-File -FilePath "${{ github.workspace }}/azure/accept_message/OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nuspec" -Encoding utf8
 
-      - name: Create aeccpt-message nuget package
+      - name: Create accept-message nuget package
         uses: nuget/setup-nuget@v2
-      - run: nuget pack "${{ github.workspace }}/azure/accept_message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -OutputDirectory "${{ github.workspace }}/artifacts" -version "${{ env.PACKAGE_VERSION }}"
+      - run: nuget pack "${{ github.workspace }}/azure/accept_message/OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nuspec" -OutputDirectory "${{ github.workspace }}/artifacts" -version "${{ env.PACKAGE_VERSION }}"
         shell: pwsh
 
       - name: Push accept-message package to GitHub Packages NuGet feed
