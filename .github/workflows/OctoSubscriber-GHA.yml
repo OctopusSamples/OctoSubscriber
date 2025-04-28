@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Azure Function - GHA
+name: Azure Function - GitHub NuGet Package
 
 on:
   # push:
