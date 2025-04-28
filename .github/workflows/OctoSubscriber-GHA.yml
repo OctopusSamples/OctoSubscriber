@@ -46,7 +46,7 @@ jobs:
         run: |
           dotnet build ./process_message.sln --configuration Release --no-restore --output "${{ github.workspace }}/artifacts/process-message"
 
-      - name: Create nuspec file
+      - name: Create process-message nuspec file
         shell: pwsh
         run: |
           $nuspec = @"
@@ -65,7 +65,7 @@ jobs:
           "@
           $nuspec | Out-File -FilePath "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -Encoding utf8
 
-      - name: Create nuget package
+      - name: Create proccess-message nuget package
         uses: nuget/setup-nuget@v2
       - run: nuget pack "${{ github.workspace }}/artifacts/process-message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -OutputDirectory "${{ github.workspace }}/artifacts" -version "${{ env.PACKAGE_VERSION }}"
         shell: pwsh
@@ -73,6 +73,35 @@ jobs:
       - name: Add source
         run: |
           dotnet nuget add source "https://nuget.pkg.github.com/twerthi/index.json" --username OctopusSamples --password ${{ secrets.GHA_TOKEN }} --store-password-in-clear-text --name github 
-      - name: Push packages to GitHub Packages NuGet feed
+      - name: Push process-message package to GitHub Packages NuGet feed
         run: |
           dotnet nuget push "${{ github.workspace }}\artifacts\OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nupkg"  --api-key ${{ secrets.GHA_TOKEN }} --source "github"
+
+      - name: Create accept-message nuspec file
+        shell: pwsh
+        run: |
+          $nuspec = @"
+          <?xml version="1.0"?>
+          <package >
+            <metadata>
+              <id>OctopusSamples.accept-message</id>
+              <version>${{ env.PACKAGE_VERSION }}</version>
+              <authors>OctopusSamples</authors>
+              <owners>OctopusSamples</owners>
+              <description>Octopus Samples accept-message</description>
+              <tags>octopus samples</tags>
+              <repository type="git" url="https://github.com/twerthi/OctoSubscriber" />
+            </metadata>
+          </package>
+          "@
+          $nuspec | Out-File -FilePath "${{ github.workspace }}/azure/accept_message/OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nuspec" -Encoding utf8
+
+      - name: Create aeccpt-message nuget package
+        uses: nuget/setup-nuget@v2
+      - run: nuget pack "${{ github.workspace }}/azure/accept_message/OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nuspec" -OutputDirectory "${{ github.workspace }}/artifacts" -version "${{ env.PACKAGE_VERSION }}"
+        shell: pwsh
+
+      - name: Push accept-message package to GitHub Packages NuGet feed
+        run: |
+          dotnet nuget push "${{ github.workspace }}\artifacts\OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nupkg"  --api-key ${{ secrets.GHA_TOKEN }} --source "github"
+        
