@@ -6,7 +6,7 @@
     "test": "echo \"No tests yet...\""
   },
   "devDependencies": {},
-  "main": "index.js",
+  "main": "accept_message/index.js",
   "author": "",
   "license": "ISC",
   "dependencies": {
