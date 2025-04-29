@@ -101,6 +101,11 @@ jobs:
           "@
           $nuspec | Out-File -FilePath "${{ github.workspace }}/azure/accept_message/OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nuspec" -Encoding utf8
 
+      - name: run npm install
+        working-directory: azure/accept_message
+        run: |
+          npm ci --production
+
       - name: Create accept-message nuget package
         uses: nuget/setup-nuget@v2
       - run: nuget pack "${{ github.workspace }}/azure/accept_message/OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nuspec" -OutputDirectory "${{ github.workspace }}/artifacts" -version "${{ env.PACKAGE_VERSION }}"
@@ -109,9 +114,5 @@ jobs:
       - name: Push accept-message package to GitHub Packages NuGet feed
         working-directory: azure/accept_message
         run: |
-          dir "${{ github.workspace }}\azure/accept_message"
-          dir "${{ github.workspace }}\azure/accept_message\node_modules"
-          npm ci --production
-          dir "${{ github.workspace }}\azure/accept_message\node_modules"
           dotnet nuget push "${{ github.workspace }}\artifacts\OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
         
