@@ -78,7 +78,9 @@ jobs:
       - name: Add source
         run: |
           dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --username ${{ github.repository_owner }} --password ${{ github.token }} --store-password-in-clear-text --name github 
-          dotnet nuget push "${{ github.workspace }}\artifacts\OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nupkg"  --source "github"
+      - name: Push process-message package to GitHub Packages NuGet feed
+        run: |
+          dotnet nuget push "${{ github.workspace }}\artifacts\OctopusSamples.process-message.${{ env.PACKAGE_VERSION }}.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
 
       - name: Create accept-message nuspec file
         shell: pwsh
