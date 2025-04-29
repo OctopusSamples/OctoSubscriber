@@ -53,7 +53,7 @@ jobs:
         working-directory: azure/accept_message
         env:
           OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_SERVER }}
-          OCTOPUS_CLI_PASSWORD: ${{ secrets.OCTOPUS_API_KEY }}  
+          OCTOPUS_CLI_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}  
         run: |
           npm ci --production
           octo pack --id=OctoSubscriber-AcceptMessage-Function --format=Zip --version=${{ env.PACKAGE_VERSION }} --basePath="$GITHUB_WORKSPACE/azure/accept_message"
