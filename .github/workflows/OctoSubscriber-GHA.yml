@@ -64,7 +64,7 @@ jobs:
               <owners>OctopusSamples</owners>
               <description>Octopus Samples process-message</description>
               <tags>octopus samples</tags>
-              <repository type="git" url="https://github.com/twerthi/OctoSubscriber" />
+              <repository type="git" url="https://github.com/${{ github.repository_owner }}/OctoSubscriber" />
             </metadata>
           </package>
           "@
@@ -95,10 +95,10 @@ jobs:
               <owners>OctopusSamples</owners>
               <description>Octopus Samples accept-message</description>
               <tags>octopus samples</tags>
-              <repository type="git" url="https://github.com/twerthi/OctoSubscriber" />
+              <repository type="git" url="https://github.com/${{ github.repository_owner }}/OctoSubscriber" />
             </metadata>
             <files>
-              <file src="**\*.*" />
+              <file src="${{ github.workspace }}/azure/accept_message/node_modules/**/*.*" />
             </files>
           </package>
           "@
