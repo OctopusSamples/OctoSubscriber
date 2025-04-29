@@ -97,9 +97,6 @@ jobs:
               <tags>octopus samples</tags>
               <repository type="git" url="https://github.com/${{ github.repository_owner }}/OctoSubscriber" />
             </metadata>
-            <files>
-              <file src="${{ github.workspace }}/azure/accept_message/node_modules/**/*.*" target="node_modules" />
-            </files>
           </package>
           "@
           $nuspec | Out-File -FilePath "${{ github.workspace }}/azure/accept_message/OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nuspec" -Encoding utf8
@@ -112,6 +109,9 @@ jobs:
       - name: Push accept-message package to GitHub Packages NuGet feed
         working-directory: azure/accept_message
         run: |
+          dir "${{ github.workspace }}\artifacts\accept_message"
+          dir "${{ github.workspace }}\artifacts\accept_message\node_modules"
           npm ci --production
+          dir "${{ github.workspace }}\artifacts\accept_message\node_modules"
           dotnet nuget push "${{ github.workspace }}\artifacts\OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
         
