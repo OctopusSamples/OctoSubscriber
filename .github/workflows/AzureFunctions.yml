@@ -58,5 +58,5 @@ jobs:
           npm ci --production
           octo pack --id=OctoSubscriber-AcceptMessage-Function --format=Zip --version=${{ env.PACKAGE_VERSION }} --basePath="$GITHUB_WORKSPACE/azure/accept_message"
           octo pack --id=OctoSubscriber-ProcessMessage-Function --format=Zip --version=${{ env.PACKAGE_VERSION }} --basePath="$GITHUB_WORKSPACE/artifacts/process-message"
-          octo push --package=OctoSubscriber-AcceptMessage-Function.${{ env.PACKAGE_VERSION }}.zip --server=$OCTOPUS_URL --apiKey=$OCTOPUS_API_KEY --space="Target - Serverless"
-          octo push --package=OctoSubscriber-ProcessMessage-Function.${{ env.PACKAGE_VERSION }}.zip --server=$OCTOPUS_URL --apiKey=$OCTOPUS_API_KEY --space="Target - Serverless"
+          octo push --package=OctoSubscriber-AcceptMessage-Function.${{ env.PACKAGE_VERSION }}.zip --server=${{ secrets.OCTOPUS_URL }} --apiKey=${{ secrets.OCTOPUS_API_KEY }} --space="Target - Serverless"
+          octo push --package=OctoSubscriber-ProcessMessage-Function.${{ env.PACKAGE_VERSION }}.zip --server=${{ secrets.OCTOPUS_URL }} --apiKey=${{ secrets.OCTOPUS_API_KEY }} --space="Target - Serverless"
