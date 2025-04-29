@@ -110,5 +110,6 @@ jobs:
         working-directory: azure/accept_message
         run: |
           npm ci --production
+          dir
           dotnet nuget push "${{ github.workspace }}\artifacts\OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
         
