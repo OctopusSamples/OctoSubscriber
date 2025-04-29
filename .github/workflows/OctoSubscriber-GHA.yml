@@ -98,7 +98,7 @@ jobs:
               <repository type="git" url="https://github.com/${{ github.repository_owner }}/OctoSubscriber" />
             </metadata>
             <files>
-              <file src="${{ github.workspace }}/azure/accept_message/node_modules/**/*.*" />
+              <file src="${{ github.workspace }}/azure/accept_message/node_modules/**/*.*" target="node_modules" />
             </files>
           </package>
           "@
