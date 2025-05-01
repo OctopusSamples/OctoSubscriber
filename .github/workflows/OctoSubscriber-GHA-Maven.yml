@@ -111,7 +111,7 @@ jobs:
 
       - name: Push process-message package to Maven feed
         run: |
-          mvn deploy:deploy-file `
+          mvn deploy:deploy-file -s "${{ github.workspace }}/artifacts/settings.xml" `
           --batch-mode `
           "-DgroupId=com.octopus" `
           "-DartifactId=OctopusSamples.process-message" `
