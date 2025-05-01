@@ -97,7 +97,7 @@ jobs:
       - name: Push process-message package to Maven feed
         run: |
           mvn deploy:deploy-file `
-          --batch mode `
+          --batch-mode `
           "-DgroupId=com.octopus" `
           "-DartifactId=OctopusSamples.process-message" `
           "-Dversion=${{ env.PACKAGE_VERSION }}" `
