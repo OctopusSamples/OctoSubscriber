@@ -94,6 +94,20 @@ jobs:
           files: |
             **/*
 
+      - name: Install maven-repository-aws-s3 dependencies
+        run: |
+          HOME=$(dirname $(readlink -f $(which mvn)))
+          for dep in "com.github.ehsaniara:maven-repository-aws-s3:1.2.11:jar" "org.apache.httpcomponents:httpcore:4.4.16:jar" "com.amazonaws:aws-java-sdk-s3:1.12.405:jar" "com.amazonaws:aws-java-sdk-core:1.12.405:jar" "com.fasterxml.jackson.core:jackson-core:2.14.2:jar" "com.fasterxml.jackson.core:jackson-databind:2.14.2:jar" "com.fasterxml.jackson.core:jackson-annotations:2.14.2:jar" "joda-time:joda-time:2.12.2:jar" "org.apache.httpcomponents:httpclient:4.5.14:jar" "commons-io:commons-io:2.12.0"
+          do
+             mvn dependency:copy \
+              --batch-mode \
+              -DrepoUrl=https://repo.maven.apache.org/maven2 \
+              -Dartifact=${dep} \
+              -DoutputDirectory=${HOME}/../lib
+          done
+        shell: bash
+        working-directory: "${{ github.workspace }}/artifacts"
+
       - name: Push process-message package to Maven feed
         run: |
           mvn deploy:deploy-file `
