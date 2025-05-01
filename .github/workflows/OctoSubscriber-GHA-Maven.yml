@@ -68,6 +68,7 @@ jobs:
                 </configuration>
               </server>
             </servers>
+          </settings>
           "@
           $settingFile | Out-File -FilePath "${{ github.workspace }}/artifacts/settings.xml" -Encoding utf8
 
