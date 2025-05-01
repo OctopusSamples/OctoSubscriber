@@ -106,3 +106,4 @@ jobs:
           "-DrepositoryId=octopus-sales-public-release" `
           "-Durl=s3://octopus-sales-public-maven-repo/snapshot" `
         shell: pwsh
+        working-directory: "${{ github.workspace }}/artifacts"
