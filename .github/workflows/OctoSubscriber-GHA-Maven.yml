@@ -1,0 +1,96 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Azure Function - GitHub NuGet Package
+
+on:
+  # push:
+  #   paths:
+  #     - 'azure/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  packages: write
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    #runs-on: ubuntu-latest
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        dotnet-version: ['8.0.x']
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - uses: actions/checkout@v2
+      - name: Set Version
+        run: echo "PACKAGE_VERSION=$(Get-Date -Format "yyyy.M.d").${{ github.run_number }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Create artifacts folder
+        run: |
+          mkdir "${{ github.workspace }}/artifacts"
+          mkdir "${{ github.workspace }}/artifacts/process-message"
+          mkdir "${{ github.workspace }}/azure/accept_message/node_modules"
+
+
+      - name: Restore dependencies for process-message
+        working-directory: azure/process_message/process_message
+        run: dotnet restore
+
+      - name: Build process-message
+#        working-directory: azure/process_message/process_message
+        working-directory: azure/process_message
+        run: |
+          dotnet build ./process_message.sln --configuration Release --no-restore --output "${{ github.workspace }}/artifacts/process-message"
+
+      - name: Configure Maven Settings File
+        shell: pwsh
+        run: |
+          $settingFile = @"
+          <settings>
+            <servers>
+              <server>
+                <id>octopus-sales-public-release</id>
+                <username>${{ secrets.AWS_ACCESS_KEY }}</username>
+                <password>${{ secrets.AWS_SECRET_KEY }}</password>
+                <configuration>
+                  <region>ap-southeast-2</region>
+                  <publicRepository>true</publicRepository>
+              </server>
+            </servers>
+          "@
+          $settingFile | Out-File -FilePath "${{ github.workspace }}/artifacts/settings.xml" -Encoding utf8
+
+      - name: Create process-message zip file
+        uses: OctopusDeploy/create-zip-package-action@v3
+        with:
+          package_id: "OctopusSamples.process-message"
+          version: "${{ env.PACKAGE_VERSION }}"
+          output_folder: "${{ github.workspace }}/artifacts"
+          base_path: "${{ github.workspace }}/artifacts/process-message"
+          files: |
+            **/*
+
+      - name: run npm install
+        working-directory: azure/accept_message
+        run: |
+          npm ci --production
+
+      - name: Create accept-message zip file
+        uses: OctopusDeploy/create-zip-package-action@v3
+        with:
+          package_id: "OctopusSamples.accpt-message"
+          version: "${{ env.PACKAGE_VERSION }}"
+          output_folder: "${{ github.workspace }}/artifacts"
+          base_path: "${{ github.workspace }}/azure/accept_message"
+          files: |
+            **/*
+
