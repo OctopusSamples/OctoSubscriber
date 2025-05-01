@@ -90,7 +90,7 @@ jobs:
       - name: Create accept-message zip file
         uses: OctopusDeploy/create-zip-package-action@v3
         with:
-          package_id: "OctopusSamples.accpt-message"
+          package_id: "OctopusSamples.accept-message"
           version: "${{ env.PACKAGE_VERSION }}"
           output_folder: "${{ github.workspace }}/artifacts"
           base_path: "${{ github.workspace }}/azure/accept_message"
