@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Azure Function - GitHub NuGet Package
+name: Azure Function - GitHub Maven Package
 
 on:
   # push:
