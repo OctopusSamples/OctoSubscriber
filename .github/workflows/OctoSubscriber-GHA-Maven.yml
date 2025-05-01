@@ -124,3 +124,17 @@ jobs:
           "-Durl=s3://octopus-sales-public-maven-repo/snapshot" `
         shell: pwsh
         working-directory: "${{ github.workspace }}/artifacts"
+
+      - name: Push accept-message package to Maven feed
+        run: |
+          mvn deploy:deploy-file -s "${{ github.workspace }}/artifacts/settings.xml" `
+          --batch-mode `
+          "-DgroupId=com.octopus" `
+          "-DartifactId=OctopusSamples.accept-message" `
+          "-Dversion=${{ env.PACKAGE_VERSION }}" `
+          "-Dpackaging=zip" `
+          "-Dfile=${{ github.workspace }}/artifacts/OctopusSamples.accept-message.${{ env.PACKAGE_VERSION }}.zip" `
+          "-DrepositoryId=octopus-sales-public-release" `
+          "-Durl=s3://octopus-sales-public-maven-repo/snapshot" `
+        shell: pwsh
+        working-directory: "${{ github.workspace }}/artifacts"        
